@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using FishingJournal.API.Database;
 using FishingJournal.API.Models;
 using Microsoft.AspNetCore.Authorization;
+using FishingJournal.API.Services;
 
 namespace FishingJournal.API.Controllers
 {
@@ -10,12 +11,12 @@ namespace FishingJournal.API.Controllers
     [ApiController]
     public class JournalEntriesController : Controller
     {
-        private readonly FishingJournalDbContext _context;
+        private readonly IJournalEntryService _journalEntryService;
         private readonly IConfiguration _configuration;
 
-        public JournalEntriesController(FishingJournalDbContext context, IConfiguration configuration)
+        public JournalEntriesController(IJournalEntryService journalEntryService, IConfiguration configuration)
         {
-            _context = context;
+            _journalEntryService = journalEntryService;
             _configuration = configuration;
         }
 
@@ -23,10 +24,9 @@ namespace FishingJournal.API.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            if(_context.JournalEntries == null)
+            if(!_journalEntryService.IsTableExistent())
                 Problem("Entity set 'FishingJournalDbContext.JournalEntries'  is null.");
-            var entries = await _context.JournalEntries!.ToListAsync();
-            entries.ForEach(async j => await j.ConvertPathsToImagesAsync());
+            var entries = await _journalEntryService.GetEntriesForTransferAsync();
             return View(entries);
         }
 
@@ -34,7 +34,7 @@ namespace FishingJournal.API.Controllers
         [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.JournalEntries == null)
+            if (id == null || !_journalEntryService.IsTableExistent())
             {
                 return NotFound();
             }
@@ -56,9 +56,7 @@ namespace FishingJournal.API.Controllers
         {
             if (ModelState.IsValid)
             {
-                await journalEntry.ConvertImagesToPathsAsync(_configuration.GetValue<string>("ImagesPath"));
-                _context.Add(journalEntry);
-                await _context.SaveChangesAsync();
+                await _journalEntryService.AddAsync(journalEntry);
                 return RedirectToAction(nameof(Index));
             }
             return View(journalEntry);
@@ -68,12 +66,12 @@ namespace FishingJournal.API.Controllers
         [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.JournalEntries == null)
+            if (id == null || !_journalEntryService.IsTableExistent())
             {
                 return NotFound();
             }
 
-            var journalEntry = await _context.JournalEntries.FindAsync(id);
+            var journalEntry = await _journalEntryService.FromIdAsync(id);
             if (journalEntry == null)
             {
                 return NotFound();
@@ -96,8 +94,7 @@ namespace FishingJournal.API.Controllers
             {
                 try
                 {
-                    _context.Update(journalEntry);
-                    await _context.SaveChangesAsync();
+                    await _journalEntryService.UpdateEntryAsync(journalEntry);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -119,13 +116,12 @@ namespace FishingJournal.API.Controllers
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.JournalEntries == null)
+            if (id == null || !_journalEntryService.IsTableExistent())
             {
                 return NotFound();
             }
 
-            var journalEntry = await _context.JournalEntries
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var journalEntry = await _journalEntryService.FirstOrDefaultAsync(m => m.Id == id);
             if (journalEntry == null)
             {
                 return NotFound();
@@ -139,24 +135,23 @@ namespace FishingJournal.API.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.JournalEntries == null)
+            if (!_journalEntryService.IsTableExistent())
             {
                 return Problem("Entity set 'FishingJournalDbContext.JournalEntries'  is null.");
             }
-            var journalEntry = await _context.JournalEntries.FindAsync(id);
+            var journalEntry = await _journalEntryService.FromIdAsync(id);
             if (journalEntry != null)
             {
-                _context.JournalEntries.Remove(journalEntry);
+                await _journalEntryService.RemoveAsync(journalEntry);
             }
             
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         [ActionName("Exists")]
         private bool JournalEntryExists(int id)
         {
-          return (_context.JournalEntries?.Any(e => e.Id == id)).GetValueOrDefault();
+          return _journalEntryService.EntryExistsAsync(id).Result;
         }
     }
 }
