@@ -11,19 +11,23 @@ namespace FishingJournal.API.Controllers
     public class JournalEntriesController : Controller
     {
         private readonly FishingJournalDbContext _context;
+        private readonly IConfiguration _configuration;
 
-        public JournalEntriesController(FishingJournalDbContext context)
+        public JournalEntriesController(FishingJournalDbContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
         [HttpGet("")]
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            return _context.JournalEntries != null ?
-                View(await _context.JournalEntries.ToListAsync()) :
+            if(_context.JournalEntries == null)
                 Problem("Entity set 'FishingJournalDbContext.JournalEntries'  is null.");
+            var entries = await _context.JournalEntries!.ToListAsync();
+            entries.ForEach(async j => await j.ConvertPathsToImagesAsync());
+            return View(entries);
         }
 
         [HttpGet("details/{id?}")]
@@ -52,6 +56,7 @@ namespace FishingJournal.API.Controllers
         {
             if (ModelState.IsValid)
             {
+                await journalEntry.ConvertImagesToPathsAsync(_configuration.GetValue<string>("ImagesPath"));
                 _context.Add(journalEntry);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
