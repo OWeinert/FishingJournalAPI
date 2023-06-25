@@ -7,7 +7,8 @@ using FishingJournal.API.Services;
 
 namespace FishingJournal.API.Controllers
 {
-    [Route("user")]
+    [ApiController]
+    [Route("api/[controller]")]
     public class UsersController : Controller
     {
         private readonly IUserService _userService;
@@ -18,6 +19,7 @@ namespace FishingJournal.API.Controllers
         }
 
         [RequireHttps]
+        [HttpGet("")]
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Index()
         {
@@ -27,8 +29,9 @@ namespace FishingJournal.API.Controllers
         }
 
         [RequireHttps]
+        [HttpGet("details/{id?}")]
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details([FromQuery]int? id)
         {
             if (id == null || !_userService.UsersTableExists())
             {
@@ -44,30 +47,21 @@ namespace FishingJournal.API.Controllers
             return View(user);
         }
 
-        [RequireHttps]
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Users/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("create")]
         [RequireHttps]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(string username, string password)
+        public async Task<IActionResult> Create([FromBody][Bind("Name,Password")]RawUser rawUser)
         {
             User? user = null;
             if (ModelState.IsValid)
             {
-                user = await _userService.RegisterUserAsync(username, password);
+                user = await _userService.RegisterUserAsync(rawUser.Name, rawUser.Password);
                 return RedirectToAction(nameof(Index));
             }
             return View(user);
         }
 
-        // GET: Users/Edit/5
+        [HttpPost("edit")]
         [RequireHttps]
         [Authorize]
         public async Task<IActionResult> Edit(int? id)
@@ -85,14 +79,11 @@ namespace FishingJournal.API.Controllers
             return View(user);
         }
 
-        // POST: Users/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("edit/{id?}")]
         [RequireHttps]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,Password,Salt")] User user)
+        public async Task<IActionResult> Edit([FromQuery]int id, [FromBody][Bind("Name,Password,Salt")] User user)
         {
             if (id != user.Id)
             {
@@ -121,10 +112,10 @@ namespace FishingJournal.API.Controllers
             return View(user);
         }
 
-        // GET: Users/Delete/5
+        [HttpPost("delete/{id?}")]
         [RequireHttps]
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete([FromQuery]int? id)
         {
             if (id == null || !_userService.UsersTableExists())
             {
@@ -142,9 +133,10 @@ namespace FishingJournal.API.Controllers
 
         // POST: Users/Delete/5
         [RequireHttps]
-        [HttpPost, ActionName("Delete")]
+        [HttpPost("deleteSafe/{id}")]
+        [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed([FromQuery]int id)
         {
             if (!_userService.UsersTableExists())
             {
@@ -158,8 +150,9 @@ namespace FishingJournal.API.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [ActionName("Exists")]
         [RequireHttps]
-        private bool UserExists(int id)
+        private bool UserExists([FromQuery]int id)
         {
             return _userService.UserExists(u => u.Id == id);
         }

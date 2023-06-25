@@ -1,4 +1,3 @@
-
 using FishingJournal.API.Authentication;
 using FishingJournal.API.Services;
 using Microsoft.AspNetCore.Authentication;
@@ -24,6 +23,7 @@ namespace FishingJournal.API
 
             services.AddControllers();
             services.AddEndpointsApiExplorer();
+            services.AddMvc();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc($"{ApiVersion}", new OpenApiInfo { Title = ApiTitle, Version = ApiVersion });
@@ -53,7 +53,7 @@ namespace FishingJournal.API
             services.AddAuthentication("BasicAuthentication")
                 .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
 
-            services.AddSingleton<IDbService, DbService>();
+            services.AddScoped<IDbService, DbService>();
             services.AddScoped<IUserService, UserService>();
 
             var app = builder.Build();

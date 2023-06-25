@@ -1,22 +1,31 @@
-﻿namespace FishingJournal.API.Models
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+
+namespace FishingJournal.API.Models
 {
+    [PrimaryKey(nameof(Id), nameof(Name))]
     public class User
     {
         /// <summary>
         /// Database ID of the User
         /// </summary>
+        [Required]
         public int Id { get; set; }
         /// <summary>
         /// The username
         /// </summary>
+        [Required]
+        [StringLength(32)]
         public string Name { get; set; }
         /// <summary>
         /// User's hashed password
         /// </summary>
+        [Required]
         public string Password { get; set; }
         /// <summary>
         /// Salt of the hashed password
         /// </summary>
+        [Required]
         public byte[] Salt { get; set; }
 
         /// <summary>

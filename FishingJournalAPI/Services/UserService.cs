@@ -9,7 +9,7 @@ namespace FishingJournal.API.Services
     /// </summary>
     public class UserService : IUserService
     {
-        private int _maxUsers;
+        private readonly int _maxUsers;
         public int MaxUsers => _maxUsers;
 
         private readonly IDbService _dbService;
@@ -48,7 +48,7 @@ namespace FishingJournal.API.Services
                 if ((await _dbService.Context.Users.CountAsync()) > MaxUsers)
                     throw new Exception("Maximum amount of registered Users reached!");
 
-                var hash = Hashing.HashPassword(password, out byte[] salt);
+                var hash = Hashing.HashPassword(password, out var salt);
                 var user = new User(username, hash, salt);
                 await _dbService.Context.Users.AddAsync(user);
                 await _dbService.Context.SaveChangesAsync();
@@ -90,7 +90,7 @@ namespace FishingJournal.API.Services
         {
             try
             {
-                var hash = Hashing.HashPassword(newPassword, out byte[] salt);
+                var hash = Hashing.HashPassword(newPassword, out var salt);
                 user.Password = hash;
                 user.Salt = salt;
                 await _dbService.Context.SaveChangesAsync();
