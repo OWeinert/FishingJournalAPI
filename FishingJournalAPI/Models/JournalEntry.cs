@@ -2,6 +2,9 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
+using FishingJournal.API.Utils;
+using SixLabors.ImageSharp.Formats;
+using SixLabors.ImageSharp.Formats.Png;
 
 namespace FishingJournal.API.Models
 {
@@ -198,5 +201,56 @@ namespace FishingJournal.API.Models
         /// </summary>
         public string? CatchPlaceImagePath { get; set; }
 
+
+        /// <summary>
+        /// Converts the FishImage and CatchPlaceImage into files saved to the basePath
+        /// and sets the FishImagePath and CatchPlaceImagePath to the files' paths
+        /// </summary>
+        /// <param name="basePath"></param>
+        public async Task ConvertImagesToPathsAsync(string basePath)
+        {
+            if(FishImage != null)
+                FishImagePath = await ConvertImageToPathAsync(basePath, FishImage);
+            if (CatchPlaceImage != null)
+                CatchPlaceImagePath = await ConvertImageToPathAsync(basePath, CatchPlaceImage);
+        }
+
+        /// <summary>
+        /// Converts the Image files located in FishImagePath and CatchPlaceImagePath into byte arrays
+        /// and sets FishImage and CatchPlaceImage to them
+        /// </summary>
+        /// <returns></returns>
+        public async Task ConvertPathsToImagesAsync()
+        {
+            if (string.IsNullOrWhiteSpace(FishImagePath))
+            {
+                var image = await Image.LoadAsync(FishImagePath!);
+                using var ms = new MemoryStream();
+                await image.SaveAsync(ms, new PngEncoder());
+                FishImage = ms.ToArray();
+            }
+            if(string.IsNullOrWhiteSpace(CatchPlaceImagePath))
+            {
+                var image = await Image.LoadAsync(CatchPlaceImagePath!);
+                using var ms = new MemoryStream();
+                await image.SaveAsync(ms, new PngEncoder());
+                CatchPlaceImage = ms.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// Converts image data as byte array into an image file located in basePath
+        /// </summary>
+        /// <param name="basePath"></param>
+        /// <param name="bytes"></param>
+        /// <returns>The path to the image file</returns>
+        private async Task<string> ConvertImageToPathAsync(string basePath, byte[] bytes)
+        {
+            using var ms = new MemoryStream(bytes);
+            var image = await Image.LoadAsync(ms);
+            var imagePath = $"{basePath}/{Id}_fish.png";
+            await image.SaveAsPngAsync(imagePath);
+            return imagePath;
+        }
     }
 }
