@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using SixLabors.ImageSharp.Formats.Png;
 
-namespace FishingJournal.API.Models
+namespace FishingJournal.API.Models.JournalEntry
 {
     [DataContract]
     public class JournalEntry
@@ -249,7 +249,7 @@ namespace FishingJournal.API.Models
         /// <param name="basePath"></param>
         public async Task ConvertImagesToPathsAsync(string basePath)
         {
-            if(FishImage != null)
+            if (FishImage != null)
                 FishImagePath = await ConvertImageToPathAsync(basePath, FishImage);
             if (CatchPlaceImage != null)
                 CatchPlaceImagePath = await ConvertImageToPathAsync(basePath, CatchPlaceImage);
@@ -269,7 +269,7 @@ namespace FishingJournal.API.Models
                 await image.SaveAsync(ms, new PngEncoder());
                 FishImage = ms.ToArray();
             }
-            if(string.IsNullOrWhiteSpace(CatchPlaceImagePath))
+            if (string.IsNullOrWhiteSpace(CatchPlaceImagePath))
             {
                 var image = await Image.LoadAsync(CatchPlaceImagePath!);
                 using var ms = new MemoryStream();

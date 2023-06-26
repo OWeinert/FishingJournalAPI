@@ -1,4 +1,5 @@
 ﻿using FishingJournal.API.Models;
+using FishingJournal.API.Models.JournalEntry;
 using Microsoft.EntityFrameworkCore;
 
 namespace FishingJournal.API.Database
