@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using FishingJournal.API.Database;
 using FishingJournal.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using FishingJournal.API.Services;
@@ -26,7 +25,7 @@ namespace FishingJournal.API.Controllers
         {
             if(!_journalEntryService.IsTableExistent())
                 Problem("Entity set 'FishingJournalDbContext.JournalEntries'  is null.");
-            var entries = await _journalEntryService.GetEntriesForTransferAsync();
+            var entries = await _journalEntryService.TransformEntriesForTransportAsync();
             return View(entries);
         }
 
@@ -39,8 +38,7 @@ namespace FishingJournal.API.Controllers
                 return NotFound();
             }
 
-            var journalEntry = await _context.JournalEntries
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var journalEntry = await _journalEntryService.FirstOrDefaultAsync(m => m.Id == id);
             if (journalEntry == null)
             {
                 return NotFound();
@@ -71,7 +69,7 @@ namespace FishingJournal.API.Controllers
                 return NotFound();
             }
 
-            var journalEntry = await _journalEntryService.FromIdAsync(id);
+            var journalEntry = await _journalEntryService.FromIdAsync((int)id);
             if (journalEntry == null)
             {
                 return NotFound();
