@@ -55,6 +55,7 @@ namespace FishingJournal.API
 
             services.AddScoped<IDbService, DbService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IJournalEntryService, JournalEntryService>();
 
             var app = builder.Build();
 
