@@ -32,7 +32,7 @@ namespace FishingJournal.API.Services
             }
         }
 
-        public async Task<List<JournalEntry>> GetEntriesForTransferAsync()
+        public async Task<List<JournalEntry>> TransformEntriesForTransportAsync()
         {
             try
             {
