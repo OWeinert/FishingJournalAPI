@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 
 namespace FishingJournal.API.Models
 {
@@ -29,17 +30,23 @@ namespace FishingJournal.API.Models
         public byte[] Salt { get; set; }
 
         /// <summary>
+        /// The Role of the user
+        /// </summary>
+        public string Role { get; set; }
+
+        /// <summary>
         /// Creates a new User 
         /// </summary>
         /// <param name="id"></param>
         /// <param name="name"></param>
         /// <param name="password"></param>
         /// <param name="salt"></param>
-        public User(string name, string password, byte[] salt)
+        public User(string name, string password, byte[] salt, string role)
         {
             Name = name;
             Password = password;
             Salt = salt;
+            Role = role;
         }
     }
 }
