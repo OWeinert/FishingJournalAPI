@@ -31,6 +31,12 @@ namespace FishingJournal.API.Models
         public FishType? FishType { get; set; }
 
         /// <summary>
+        /// </summary>
+        [DataMember]
+        [JsonPropertyName("fishTypeId")]
+        public int FishTypeId { get; set; }
+
+        /// <summary>
         /// Fish length
         /// </summary>
         [DataMember]
@@ -61,8 +67,20 @@ namespace FishingJournal.API.Models
         /// <summary>
         /// </summary>
         [DataMember]
+        [JsonPropertyName("rigTypeId")]
+        public int RigTypeId { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [DataMember]
         [JsonPropertyName("hookType")]
         public HookType? HookType { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [DataMember]
+        [JsonPropertyName("hookTypeId")]
+        public int HookTypeId { get; set; }
 
         /// <summary>
         /// Additional info of what bait was used
@@ -87,12 +105,18 @@ namespace FishingJournal.API.Models
 
 
         /// <summary>
-        /// Catch location given in latitude and longitude to support map tracking
+        /// Catch location latitude
         /// </summary>
-        [NotMapped]
         [DataMember]
-        [JsonPropertyName("location")]
-        public Location? Location { get; set; }
+        [JsonPropertyName("latitude")]
+        public float Latitude { get; set; }
+
+        /// <summary>
+        /// Catch location longitude
+        /// </summary>
+        [DataMember]
+        [JsonPropertyName("longitude")]
+        public float Longitude { get; set; }
 
         /// <summary>
         /// Optional name of the catch location
@@ -107,6 +131,12 @@ namespace FishingJournal.API.Models
         [DataMember]
         [JsonPropertyName("weatherType")]
         public WeatherType? WeatherType { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [DataMember]
+        [JsonPropertyName("weatherTypeId")]
+        public int WeatherTypeId { get; set; }
 
         /// <summary>
         /// Wind strength on the Beaufort scale
@@ -131,8 +161,20 @@ namespace FishingJournal.API.Models
         /// <summary>
         /// </summary>
         [DataMember]
+        [JsonPropertyName("waterSurfaceTypeId")]
+        public int WaterSurfaceTypeId { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [DataMember]
         [JsonPropertyName("waterCurrentType")]
         public WaterCurrentType? WaterCurrentType { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [DataMember]
+        [JsonPropertyName("waterCurrentTypeId")]
+        public int WaterCurrentTypeId { get; set; }
 
         /// <summary>
         /// Air pressure in mbar (1 mbar = 1 hPa = 100 Pa)
