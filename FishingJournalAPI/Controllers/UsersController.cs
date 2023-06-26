@@ -131,7 +131,6 @@ namespace FishingJournal.API.Controllers
             return View(user);
         }
 
-        // POST: Users/Delete/5
         [RequireHttps]
         [HttpPost("deleteSafe/{id}")]
         [Authorize]
