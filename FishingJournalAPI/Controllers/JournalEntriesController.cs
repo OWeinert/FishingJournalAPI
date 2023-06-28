@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using FishingJournal.API.Services;
-using FishingJournal.API.Models.JournalEntry;
+using FishingJournal.API.Models.JournalEntryModels;
 
 namespace FishingJournal.API.Controllers
 {
