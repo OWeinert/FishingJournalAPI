@@ -33,7 +33,7 @@ namespace FishingJournal.API.Services
             }
         }
 
-        public async Task<List<JournalEntry>> TransformEntriesForTransportAsync()
+        public async Task<IList<JournalEntry>> TransformEntriesForTransportAsync()
         {
             try
             {
@@ -49,13 +49,13 @@ namespace FishingJournal.API.Services
             throw new Exception("Error while converting JournalEntries!");
         }
 
-        public async Task<List<JournalEntry>> GetEntriesAsync() => await _dbContext.JournalEntries.ToListAsync();
+        public async Task<IList<JournalEntry>> GetAllAsync() => await _dbContext.JournalEntries.ToListAsync();
 
-        public async Task<List<JournalEntry>> GetEntriesAsync(int startIndex = 0, int? endIndex = null)
+        public async Task<IList<JournalEntry>> GetSpanAsync(int startIndex = 0, int? endIndex = null)
         {
             try
             {
-                var entries = await GetEntriesAsync();
+                var entries = await GetAllAsync();
                 endIndex ??= entries.Count;
 
                 if (endIndex < startIndex)
@@ -66,6 +66,19 @@ namespace FishingJournal.API.Services
             catch(Exception ex)
             {
                 _logger.LogError("Retrieval of JournalEntries failed! {ex}", ex);
+            }
+            throw new Exception("Error while querying JournalEntries!");
+        }
+
+        public async Task<IList<JournalEntry>> GetUserEntriesAsync(string userId)
+        {
+            try
+            {
+                return await _dbContext.JournalEntries.Where(j => j.UserId == userId).ToListAsync();
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError("Retrieval of JournalEntries for User with Id  {id}  failed! {ex}", userId, ex);
             }
             throw new Exception("Error while querying JournalEntries!");
         }
@@ -101,8 +114,22 @@ namespace FishingJournal.API.Services
             }
         }
 
-        public async Task UpdateEntryAsync(JournalEntry journalEntry)
+        public async Task RemoveMultipleAsync(IEnumerable<JournalEntry> journalEntries)
         {
+            try
+            {
+                _dbContext.JournalEntries.RemoveRange(journalEntries);
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Removal of JournalEntries failed! {ex}", ex);
+            }
+        }
+
+        public async Task UpdateEntryAsync(JournalEntry journalEntry, JournalEntry newJournalEntry)
+        {
+            journalEntry = newJournalEntry;
             _dbContext.Update(journalEntry);
             await _dbContext.SaveChangesAsync();
         }

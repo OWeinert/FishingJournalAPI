@@ -1,76 +1,92 @@
-﻿using FishingJournal.API.Models.JournalEntryModels;
+﻿using FishingJournal.API.Models;
+using FishingJournal.API.Models.JournalEntryModels;
 
 namespace FishingJournal.API.Services
 {
     public interface IJournalEntryService
     {
         /// <summary>
-        /// Retrieves all JournalEntries and converts the Image paths 
+        /// Returns all JournalEntries and converts the Image paths 
         /// which are saved in the database into byte arrays for data transfer
         /// </summary>
         /// <returns></returns>
-        public Task<List<JournalEntry>> TransformEntriesForTransportAsync();
+        Task<IList<JournalEntry>> TransformEntriesForTransportAsync();
 
         /// <summary>
-        /// Retrieves all JournalEntries as a list
+        /// Returns all JournalEntries as a list
         /// </summary>
         /// <returns></returns>
-        public Task<List<JournalEntry>> GetEntriesAsync();
+        Task<IList<JournalEntry>> GetAllAsync();
 
         /// <summary>
-        /// Retrieves a list of JournalEntries between the starting and end index
+        /// Returns a list of JournalEntries between the starting and end index.
+        /// DOES NOT RETURN A Span OBJECT!
         /// </summary>
         /// <param name="startIndex"></param>
         /// <param name="endIndex"></param>
         /// <returns></returns>
-        public Task<List<JournalEntry>> GetEntriesAsync(int startIndex = 0, int? endIndex = null);
+        Task<IList<JournalEntry>> GetSpanAsync(int startIndex = 0, int? endIndex = null);
+
+        /// <summary>
+        /// Returns all JournalEntries created by the specified User
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        Task<IList<JournalEntry>> GetUserEntriesAsync(string userId);
 
         /// <summary>
         /// Adds the given JournalEntry to the database
         /// </summary>
         /// <param name="journalEntry"></param>
         /// <returns></returns>
-        public Task AddAsync(JournalEntry journalEntry);
+        Task AddAsync(JournalEntry journalEntry);
 
         /// <summary>
         /// Removes the given JournalEntry from the database
         /// </summary>
         /// <param name="journalEntry"></param>
         /// <returns></returns>
-        public Task RemoveAsync(JournalEntry journalEntry);
+        Task RemoveAsync(JournalEntry journalEntry);
+
+        /// <summary>
+        /// Removes multiple JournalEntries at once
+        /// </summary>
+        /// <param name="journalEntries"></param>
+        /// <returns></returns>
+        Task RemoveMultipleAsync(IEnumerable<JournalEntry> journalEntries);
 
         /// <summary>
         /// Returns the first JournalEntry found that fulfills the given predicate or null
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        public Task<JournalEntry?> FirstOrDefaultAsync(Func<JournalEntry, bool> predicate);
+        Task<JournalEntry?> FirstOrDefaultAsync(Func<JournalEntry, bool> predicate);
 
         /// <summary>
         /// Returns the JournalEntry of the given id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Task<JournalEntry> FromIdAsync(int id);
+        Task<JournalEntry> FromIdAsync(int id);
 
         /// <summary>
         /// Updates the given JournalEntry in the database
         /// </summary>
         /// <param name="journalEntry"></param>
         /// <returns></returns>
-        public Task UpdateEntryAsync(JournalEntry journalEntry);
+        Task UpdateEntryAsync(JournalEntry journalEntry, JournalEntry newJournalEntry);
 
         /// <summary>
         /// Checks if an entry with the given id exists
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Task<bool> EntryExistsAsync(int id);
+        Task<bool> EntryExistsAsync(int id);
 
         /// <summary>
         /// Checks if the JournalEntries table exists in the database
         /// </summary>
         /// <returns></returns>
-        public bool IsTableExistent();
+        bool IsTableExistent();
     }
 }
