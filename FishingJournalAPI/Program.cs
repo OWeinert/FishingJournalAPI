@@ -83,6 +83,8 @@ namespace FishingJournal.API
 
             services.AddTransient<TokenServiceMiddleware>();
             services.AddTransient<ITokenService, TokenService>();
+
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IJournalEntryService, JournalEntryService>();
 
             var app = builder.Build();
