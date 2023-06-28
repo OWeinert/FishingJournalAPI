@@ -122,8 +122,9 @@ namespace FishingJournal.API.Migrations
                         .HasColumnType("INTEGER")
                         .HasAnnotation("Relational:JsonPropertyName", "rigTypeId");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER")
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
                         .HasAnnotation("Relational:JsonPropertyName", "userId");
 
                     b.Property<int>("WaterCurrentTypeId")
@@ -231,9 +232,8 @@ namespace FishingJournal.API.Migrations
 
             modelBuilder.Entity("FishingJournal.API.Models.User", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -247,10 +247,6 @@ namespace FishingJournal.API.Migrations
                     b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("TEXT");
-
-                    b.Property<byte[]>("Salt")
-                        .IsRequired()
-                        .HasColumnType("BLOB");
 
                     b.HasKey("Id");
 
