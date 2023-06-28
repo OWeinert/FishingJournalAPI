@@ -2,14 +2,15 @@
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 namespace FishingJournal.API.Models
 {
-    [PrimaryKey(nameof(Id), nameof(Name))]
     public class User
     {
         /// <summary>
         /// Database ID of the User
         /// </summary>
+        [Key]
         [Required]
         public int Id { get; set; }
         /// <summary>
@@ -33,20 +34,5 @@ namespace FishingJournal.API.Models
         /// The Role of the user
         /// </summary>
         public string Role { get; set; }
-
-        /// <summary>
-        /// Creates a new User 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="name"></param>
-        /// <param name="password"></param>
-        /// <param name="salt"></param>
-        public User(string name, string password, byte[] salt, string role)
-        {
-            Name = name;
-            Password = password;
-            Salt = salt;
-            Role = role;
-        }
     }
 }

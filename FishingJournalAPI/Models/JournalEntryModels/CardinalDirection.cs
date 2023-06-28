@@ -1,4 +1,4 @@
-﻿namespace FishingJournal.API.Models.JournalEntry.JournalEntry
+﻿namespace FishingJournal.API.Models.JournalEntryModels
 {
     public enum CardinalDirection
     {

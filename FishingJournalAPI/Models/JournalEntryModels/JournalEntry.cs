@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using SixLabors.ImageSharp.Formats.Png;
 
-namespace FishingJournal.API.Models.JournalEntry
+namespace FishingJournal.API.Models.JournalEntryModels
 {
     [DataContract]
     public class JournalEntry
@@ -12,8 +12,26 @@ namespace FishingJournal.API.Models.JournalEntry
         /// <summary>
         /// JournalEntry's Id in the database
         /// </summary>
+        [DataMember]
         [JsonPropertyName("id")]
+        [Required]
         public int Id { get; set; }
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        /// <summary>
+        /// User who created the JournalEntry
+        /// </summary>
+        [Required]
+        public User User { get; set; }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+
+        /// <summary>
+        /// Id of the User
+        /// </summary>
+        [DataMember]
+        [JsonPropertyName("userId")]
+        [ForeignKey(nameof(User))]
+        public int UserId { get; set; }
 
         /// <summary>
         /// Date and Time of catch
@@ -21,19 +39,20 @@ namespace FishingJournal.API.Models.JournalEntry
         [DataMember]
         [DataType(DataType.DateTime)]
         [JsonPropertyName("dateTime")]
+        [Required]
         public DateTime DateTime { get; set; }
 
 
         /// <summary>
+        /// Catched species of fish
         /// </summary>
-        [DataMember]
-        [JsonPropertyName("fishType")]
+        [Required]
         public FishType? FishType { get; set; }
 
-        /// <summary>
-        /// </summary>
         [DataMember]
         [JsonPropertyName("fishTypeId")]
+        [ForeignKey(nameof(FishType))]
+        [Required]
         public int FishTypeId { get; set; }
 
         /// <summary>
@@ -59,27 +78,23 @@ namespace FishingJournal.API.Models.JournalEntry
 
 
         /// <summary>
+        /// The type of fishing rig used
         /// </summary>
-        [DataMember]
-        [JsonPropertyName("rigType")]
         public RigType? RigType { get; set; }
 
-        /// <summary>
-        /// </summary>
         [DataMember]
         [JsonPropertyName("rigTypeId")]
+        [ForeignKey(nameof(RigType))]
         public int RigTypeId { get; set; }
 
         /// <summary>
+        /// The type of hook used
         /// </summary>
-        [DataMember]
-        [JsonPropertyName("hookType")]
         public HookType? HookType { get; set; }
 
-        /// <summary>
-        /// </summary>
         [DataMember]
         [JsonPropertyName("hookTypeId")]
+        [ForeignKey(nameof(HookType))]
         public int HookTypeId { get; set; }
 
         /// <summary>
@@ -127,15 +142,13 @@ namespace FishingJournal.API.Models.JournalEntry
 
 
         /// <summary>
+        /// The weather conditions at time of catch
         /// </summary>
-        [DataMember]
-        [JsonPropertyName("weatherType")]
         public WeatherType? WeatherType { get; set; }
 
-        /// <summary>
-        /// </summary>
         [DataMember]
         [JsonPropertyName("weatherTypeId")]
+        [ForeignKey(nameof(WeatherType))]
         public int WeatherTypeId { get; set; }
 
         /// <summary>
@@ -153,27 +166,23 @@ namespace FishingJournal.API.Models.JournalEntry
         public CardinalDirection WindDirection { get; set; }
 
         /// <summary>
+        /// The constitution of the water surface at time of catch
         /// </summary>
-        [DataMember]
-        [JsonPropertyName("waterSurfaceType")]
         public WaterSurfaceType? WaterSurfaceType { get; set; }
 
-        /// <summary>
-        /// </summary>
         [DataMember]
         [JsonPropertyName("waterSurfaceTypeId")]
+        [ForeignKey(nameof(WaterSurfaceType))]
         public int WaterSurfaceTypeId { get; set; }
 
         /// <summary>
+        /// The type of water current at the place of catch
         /// </summary>
-        [DataMember]
-        [JsonPropertyName("waterCurrentType")]
         public WaterCurrentType? WaterCurrentType { get; set; }
 
-        /// <summary>
-        /// </summary>
         [DataMember]
         [JsonPropertyName("waterCurrentTypeId")]
+        [ForeignKey(nameof(WaterCurrentType))]
         public int WaterCurrentTypeId { get; set; }
 
         /// <summary>
@@ -190,18 +199,13 @@ namespace FishingJournal.API.Models.JournalEntry
         [JsonPropertyName("airPressureTendency")]
         public AirPressureTendency AirPressureTendency { get; set; }
 
-        /// <summary>
-        /// </summary>
         [DataMember]
         [JsonPropertyName("airTemperature")]
         public float AirTemperature { get; set; }
 
-        /// <summary>
-        /// </summary>
         [DataMember]
         [JsonPropertyName("waterTemperature")]
         public float WaterTemperature { get; set; }
-
 
         /// <summary>
         /// Optional additional informations
@@ -209,7 +213,6 @@ namespace FishingJournal.API.Models.JournalEntry
         [DataMember]
         [JsonPropertyName("additionalInfo")]
         public string? AdditionalInfo { get; set; }
-
 
         /// <summary>
         /// Byte data of the fish image
