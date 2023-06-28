@@ -1,19 +1,20 @@
-﻿using FishingJournal.API.Models.JournalEntry;
+﻿using FishingJournal.API.Database;
+using FishingJournal.API.Models.JournalEntryModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace FishingJournal.API.Services
 {
     public class JournalEntryService : IJournalEntryService
     {
-        private readonly IDbService _dbService;
+        private readonly FishingJournalDbContext _dbContext;
         private readonly ILogger<JournalEntryService> _logger;
 
         private IConfiguration _configuration;
 
-        public JournalEntryService(IDbService dbService, ILogger<JournalEntryService> logger
+        public JournalEntryService(FishingJournalDbContext dbContext, ILogger<JournalEntryService> logger
             , IConfiguration configuration)
         {
-            _dbService = dbService;
+            _dbContext = dbContext;
             _logger = logger;
             _configuration = configuration;
         }
@@ -23,8 +24,8 @@ namespace FishingJournal.API.Services
             try
             {
                 await journalEntry.ConvertImagesToPathsAsync(_configuration.GetValue<string>("ImagesPath")!);
-                _dbService.Context.Add(journalEntry);
-                await _dbService.Context.SaveChangesAsync();
+                _dbContext.Add(journalEntry);
+                await _dbContext.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -36,9 +37,9 @@ namespace FishingJournal.API.Services
         {
             try
             {
-                var entries = await _dbService.Context.JournalEntries!.ToListAsync();
+                var entries = await _dbContext.JournalEntries!.ToListAsync();
                 entries.ForEach(async j => await j.ConvertPathsToImagesAsync());
-                await _dbService.Context.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync();
                 return entries;
             }
             catch (Exception ex)
@@ -48,7 +49,7 @@ namespace FishingJournal.API.Services
             throw new Exception("Error while converting JournalEntries!");
         }
 
-        public async Task<List<JournalEntry>> GetEntriesAsync() => await _dbService.Context.JournalEntries.ToListAsync();
+        public async Task<List<JournalEntry>> GetEntriesAsync() => await _dbContext.JournalEntries.ToListAsync();
 
         public async Task<List<JournalEntry>> GetEntriesAsync(int startIndex = 0, int? endIndex = null)
         {
@@ -69,13 +70,13 @@ namespace FishingJournal.API.Services
             throw new Exception("Error while querying JournalEntries!");
         }
 
-        public async Task<JournalEntry?> FirstOrDefaultAsync(Func<JournalEntry, bool> predicate) => await _dbService.Context.JournalEntries.FirstOrDefaultAsync(j => predicate(j));
+        public async Task<JournalEntry?> FirstOrDefaultAsync(Func<JournalEntry, bool> predicate) => await _dbContext.JournalEntries.FirstOrDefaultAsync(j => predicate(j));
 
         public async Task<JournalEntry> FromIdAsync(int id)
         {
             try
             {
-                var entry = await _dbService.Context.JournalEntries.FindAsync(id);
+                var entry = await _dbContext.JournalEntries.FindAsync(id);
                 if (entry == null)
                     throw new Exception("Could not find JournalEntry with given id!");
                 return entry;
@@ -91,8 +92,8 @@ namespace FishingJournal.API.Services
         {
             try
             {
-                _dbService.Context.JournalEntries.Remove(journalEntry);
-                await _dbService.Context.SaveChangesAsync();
+                _dbContext.JournalEntries.Remove(journalEntry);
+                await _dbContext.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -102,13 +103,13 @@ namespace FishingJournal.API.Services
 
         public async Task UpdateEntryAsync(JournalEntry journalEntry)
         {
-            _dbService.Context.Update(journalEntry);
-            await _dbService.Context.SaveChangesAsync();
+            _dbContext.Update(journalEntry);
+            await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<bool> EntryExistsAsync(int id) => await _dbService.Context.JournalEntries.AnyAsync(e => e.Id == id);
+        public async Task<bool> EntryExistsAsync(int id) => await _dbContext.JournalEntries.AnyAsync(e => e.Id == id);
 
-        public bool IsTableExistent() => _dbService.Context.JournalEntries != null;
+        public bool IsTableExistent() => _dbContext.JournalEntries != null;
 
 
     }

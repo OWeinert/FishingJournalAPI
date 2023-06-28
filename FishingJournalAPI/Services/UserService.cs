@@ -1,4 +1,5 @@
 ﻿using FishingJournal.API.Authentication;
+using FishingJournal.API.Database;
 using FishingJournal.API.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,12 +13,12 @@ namespace FishingJournal.API.Services
         private readonly int _maxUsers;
         public int MaxUsers => _maxUsers;
 
-        private readonly IDbService _dbService;
+        private readonly FishingJournalDbContext _dbContext;
         private readonly ILogger<UserService> _logger;
 
-        public UserService(IDbService dbService, ILogger<UserService> logger, IConfiguration configuration)
+        public UserService(FishingJournalDbContext dbContext, ILogger<UserService> logger, IConfiguration configuration)
         {
-            _dbService = dbService;
+            _dbContext = dbContext;
             _logger = logger;
             _maxUsers = configuration.GetValue<int>("MaxUsers");
         }
@@ -32,8 +33,8 @@ namespace FishingJournal.API.Services
         {
             try
             {
-                _dbService.Context.Users.Remove(user);
-                await _dbService.Context.SaveChangesAsync();
+                _dbContext.Users.Remove(user);
+                await _dbContext.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -45,13 +46,18 @@ namespace FishingJournal.API.Services
         {
             try
             {
-                if ((await _dbService.Context.Users.CountAsync()) > MaxUsers)
+                if ((await _dbContext.Users.CountAsync()) > MaxUsers)
                     throw new Exception("Maximum amount of registered Users reached!");
 
                 var hash = Hashing.HashPassword(password, out var salt);
-                var user = new User(username, hash, salt);
-                await _dbService.Context.Users.AddAsync(user);
-                await _dbService.Context.SaveChangesAsync();
+                var user = new User
+                {   
+                    Name = username,
+                    Password = password,
+                    Salt = salt
+                };
+                await _dbContext.Users.AddAsync(user);
+                await _dbContext.SaveChangesAsync();
                 return user;
             }
             catch (Exception ex)
@@ -93,7 +99,7 @@ namespace FishingJournal.API.Services
                 var hash = Hashing.HashPassword(newPassword, out var salt);
                 user.Password = hash;
                 user.Salt = salt;
-                await _dbService.Context.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -105,7 +111,7 @@ namespace FishingJournal.API.Services
         {
             try
             {
-                return await _dbService.Context.Users.FindAsync(username);
+                return await _dbContext.Users.FindAsync(username);
             }
             catch(Exception ex)
             {
@@ -118,7 +124,7 @@ namespace FishingJournal.API.Services
         {
             try
             {
-                return await _dbService.Context.Users.FindAsync(id);
+                return await _dbContext.Users.FindAsync(id);
             }
             catch (Exception ex)
             {
@@ -127,24 +133,24 @@ namespace FishingJournal.API.Services
             return null;
         }
 
-        public async Task<User> FirstAsync(Func<User, bool> predicate) => await _dbService.Context.Users.FirstAsync(u => predicate(u));
+        public async Task<User> FirstAsync(Func<User, bool> predicate) => await _dbContext.Users.FirstAsync(u => predicate(u));
 
-        public async Task<User?> FirstOrDefaultAsync(Func<User, bool> predicate) => await _dbService.Context.Users.FirstOrDefaultAsync(u => predicate(u));
+        public async Task<User?> FirstOrDefaultAsync(Func<User, bool> predicate) => await _dbContext.Users.FirstOrDefaultAsync(u => predicate(u));
 
         public async Task EditUserAsync(int id, User user)
         {
             if (id != user.Id)
                 throw new ArgumentException("given ID does not match user ID", nameof(id));
-            _dbService.Context.Update(user);
-            await _dbService.Context.SaveChangesAsync();
+            _dbContext.Update(user);
+            await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<List<User>> GetUsersAsync() => await _dbService.Context.Users.ToListAsync();
+        public async Task<List<User>> GetUsersAsync() => await _dbContext.Users.ToListAsync();
 
-        public async Task<bool> UserExistsAsync(Func<User, bool> predicate) => await _dbService.Context.Users.AnyAsync(u => predicate(u));
+        public async Task<bool> UserExistsAsync(Func<User, bool> predicate) => await _dbContext.Users.AnyAsync(u => predicate(u));
 
-        public bool UserExists(Func<User, bool> predicate) => _dbService.Context.Users.Any(u => predicate(u));
+        public bool UserExists(Func<User, bool> predicate) => _dbContext.Users.Any(u => predicate(u));
 
-        public bool UsersTableExists() => _dbService.Context.Users != null;
+        public bool UsersTableExists() => _dbContext.Users != null;
     }
 }
