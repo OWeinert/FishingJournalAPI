@@ -31,7 +31,7 @@ namespace FishingJournal.API.Models.JournalEntryModels
         [DataMember]
         [JsonPropertyName("userId")]
         [ForeignKey(nameof(User))]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         /// <summary>
         /// Date and Time of catch

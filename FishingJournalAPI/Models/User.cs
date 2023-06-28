@@ -12,7 +12,7 @@ namespace FishingJournal.API.Models
         /// </summary>
         [Key]
         [Required]
-        public int Id { get; set; }
+        public string Id { get; set; }
         /// <summary>
         /// The username
         /// </summary>
