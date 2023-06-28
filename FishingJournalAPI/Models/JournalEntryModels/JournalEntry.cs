@@ -10,6 +10,12 @@ namespace FishingJournal.API.Models.JournalEntryModels
     public class JournalEntry
     {
         /// <summary>
+        /// Default path where the FishImage and CatchPlaceImage are saved to
+        /// </summary>
+        [NotMapped]
+        public static readonly string DefaultImagePath = $"{Directory.GetCurrentDirectory()}/images";
+
+        /// <summary>
         /// JournalEntry's Id in the database
         /// </summary>
         [DataMember]
@@ -247,11 +253,15 @@ namespace FishingJournal.API.Models.JournalEntryModels
 
         /// <summary>
         /// Converts the FishImage and CatchPlaceImage into files saved to the basePath
-        /// and sets the FishImagePath and CatchPlaceImagePath to the files' paths
+        /// and sets the FishImagePath and CatchPlaceImagePath to the files' paths.
+        /// Leave basePath empty to use the DefaultImagePath
         /// </summary>
         /// <param name="basePath"></param>
         public async Task ConvertImagesToPathsAsync(string basePath)
         {
+            if (string.IsNullOrWhiteSpace(basePath))
+                basePath = DefaultImagePath;
+
             if (FishImage != null)
                 FishImagePath = await ConvertImageToPathAsync(basePath, FishImage);
             if (CatchPlaceImage != null)
