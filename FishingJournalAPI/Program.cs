@@ -3,10 +3,10 @@ using FishingJournal.API.Authentication;
 using FishingJournal.API.Database;
 using FishingJournal.API.Helpers;
 using FishingJournal.API.Services;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using NeoSmart.Caching.Sqlite;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -37,6 +37,13 @@ namespace FishingJournal.API
 
             services.AddControllers();
             services.AddEndpointsApiExplorer();
+
+            services.AddSqliteCache(options =>
+            {
+                var configPath = builder.Configuration.GetValue<string>("Jwt:TokenCachePath")!;
+                options.CachePath = !string.IsNullOrWhiteSpace(configPath) ? configPath : Directory.GetCurrentDirectory();
+            });
+
             services.AddMvc();
             services.AddSwaggerGen(c =>
             {
@@ -72,9 +79,10 @@ namespace FishingJournal.API
             });
 
             services.AddSingleton(mapper);
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            services.AddScoped<IDbService, DbService>();
-            services.AddScoped<IUserService, UserService>();
+            services.AddTransient<TokenServiceMiddleware>();
+            services.AddTransient<ITokenService, TokenService>();
             services.AddScoped<IJournalEntryService, JournalEntryService>();
 
             var app = builder.Build();
@@ -84,6 +92,8 @@ namespace FishingJournal.API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint($"/swagger/{ApiVersion}/swagger.json", $"{ApiTitle} {ApiVersion}"));
             }
+
+            app.UseMiddleware<TokenServiceMiddleware>();
 
             app.UseHttpsRedirection();
 
