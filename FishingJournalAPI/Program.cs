@@ -34,6 +34,12 @@ namespace FishingJournal.API
             var services = builder.Services;
 
             services.AddDbContext<FishingJournalDbContext>();
+            services.AddCors(policyBuilder =>
+                policyBuilder.AddDefaultPolicy(policy =>
+                    policy.WithOrigins("*")
+                    .AllowAnyHeader()
+                    .AllowAnyHeader())
+            );
 
             services.AddControllers();
             services.AddEndpointsApiExplorer();
@@ -98,6 +104,8 @@ namespace FishingJournal.API
             app.UseMiddleware<TokenServiceMiddleware>();
 
             app.UseHttpsRedirection();
+
+            app.UseCors();
 
             app.UseRouting();
             app.UseAuthentication();
