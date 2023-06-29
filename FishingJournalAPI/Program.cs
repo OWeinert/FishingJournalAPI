@@ -17,6 +17,7 @@ namespace FishingJournal.API
         public const string ApiTitle = "FishingJournalAPI";
         public const string ApiVersion = "v1";
         public static readonly string DefaultCachePath = $"{Directory.GetCurrentDirectory()}/cache.db";
+        public static readonly string[] DefaultHostUrls = new string[] { "https://localhost:7075", "http://localhost:5149" };
 
         public static void Main(string[] args)
         {
@@ -44,7 +45,7 @@ namespace FishingJournal.API
             webBuilder.UseIIS();
 
             var hostUrlsConfig = builder.Configuration.GetValue<string>("HostUrls");
-            var hostUrls = !string.IsNullOrWhiteSpace(hostUrlsConfig) ? hostUrlsConfig.Split(";") : new string[] { "https://localhost:7075", "http://localhost:5149" };
+            var hostUrls = !string.IsNullOrWhiteSpace(hostUrlsConfig) ? hostUrlsConfig.Split(";") : DefaultHostUrls;
             webBuilder.UseUrls(hostUrls);
 
             #endregion WebHost Builder
