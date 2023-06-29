@@ -136,7 +136,7 @@ namespace FishingJournal.API.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        [HttpPut($"{nameof(Add)}")]
+        [HttpPut($"{nameof(Edit)}")]
         public async Task<IActionResult> Edit(EntryModificationInputModel model)
         {
             try
