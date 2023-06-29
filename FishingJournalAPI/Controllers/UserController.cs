@@ -12,6 +12,8 @@ namespace FishingJournal.API.Controllers
     [Authorize]
     [ApiController]
     [Route("[controller]")]
+    [Consumes("application/json", "application/xml")]
+    [Produces("application/json", "application/xml")]
     public class UserController : Controller
     {
         private readonly IAuthenticationService _authService;
@@ -30,7 +32,6 @@ namespace FishingJournal.API.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        [Authorize]
         [RequireHttps]
         [HttpPut(nameof(ChangePassword))]
         public async Task<IActionResult> ChangePassword(ChangePasswordInputModel model)
@@ -66,7 +67,6 @@ namespace FishingJournal.API.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        [Authorize]
         [RequireHttps]
         [HttpPut(nameof(ChangeUsername))]
         public async Task<IActionResult> ChangeUsername(ChangeNameInputModel model)
@@ -96,7 +96,6 @@ namespace FishingJournal.API.Controllers
         /// </summary>
         /// <param name="userModel"></param>
         /// <returns></returns>
-        [Authorize]
         [RequireHttps]
         [HttpDelete(nameof(Delete))]
         public async Task<IActionResult> Delete(LoginInputModel userModel)
@@ -154,7 +153,6 @@ namespace FishingJournal.API.Controllers
         /// 
         /// </summary>
         /// <returns></returns>
-        [Authorize]
         [RequireHttps]
         [HttpGet(nameof(GetAll))]
         public async Task<IActionResult> GetAll()

@@ -7,8 +7,11 @@ using System.Net;
 
 namespace FishingJournal.API.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
+    [Consumes("application/json", "application/xml")]
+    [Produces("application/json", "application/xml")]
     public class JournalEntryController : Controller
     {
         private readonly IJournalEntryService _journalEntryService;
@@ -27,7 +30,6 @@ namespace FishingJournal.API.Controllers
         /// 
         /// </summary>
         /// <returns></returns>
-        [Authorize]
         [HttpGet("")]
         public async Task<IActionResult> Get()
         {
@@ -48,7 +50,6 @@ namespace FishingJournal.API.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -70,7 +71,6 @@ namespace FishingJournal.API.Controllers
         /// <param name="startIndex"></param>
         /// <param name="endIndex"></param>
         /// <returns></returns>
-        [Authorize]
         [HttpGet("{startIndex}.{endIndex?}")]
         public async Task<IActionResult> Get(int startIndex, int? endIndex)
         {
@@ -91,7 +91,6 @@ namespace FishingJournal.API.Controllers
         /// </summary>
         /// <param name="username"></param>
         /// <returns></returns>
-        [Authorize]
         [HttpGet("{username}")]
         public async Task<IActionResult> Get(string username)
         {
@@ -113,7 +112,6 @@ namespace FishingJournal.API.Controllers
         /// </summary>
         /// <param name="journalEntry"></param>
         /// <returns></returns>
-        [Authorize]
         [HttpPost(nameof(Add))]
         public async Task<IActionResult> Add(JournalEntry journalEntry)
         {
@@ -133,7 +131,11 @@ namespace FishingJournal.API.Controllers
             }
         }
 
-        [Authorize]
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPut($"{nameof(Add)}")]
         public async Task<IActionResult> Edit(EntryModificationInputModel model)
         {
@@ -166,7 +168,6 @@ namespace FishingJournal.API.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        [Authorize]
         [RequireHttps]
         [HttpDelete(nameof(Delete))]
         public async Task<IActionResult> Delete(EntryModificationInputModel model)
