@@ -71,7 +71,7 @@ namespace FishingJournal.API.Controllers
         /// <param name="endIndex"></param>
         /// <returns></returns>
         [Authorize]
-        [HttpGet("{startIndex}-{endIndex?}")]
+        [HttpGet("{startIndex}.{endIndex?}")]
         public async Task<IActionResult> Get(int startIndex, int? endIndex)
         {
             try

@@ -34,6 +34,7 @@ namespace FishingJournal.API
             var services = builder.Services;
 
             services.AddDbContext<FishingJournalDbContext>();
+
             services.AddCors(policyBuilder =>
                 policyBuilder.AddDefaultPolicy(policy =>
                     policy.WithOrigins("*")
@@ -44,6 +45,7 @@ namespace FishingJournal.API
             services.AddControllers();
             services.AddEndpointsApiExplorer();
 
+            // JwtToken cache
             services.AddSqliteCache(options =>
             {
                 var configPath = builder.Configuration.GetValue<string>("Jwt:TokenCachePath")!;
@@ -51,6 +53,7 @@ namespace FishingJournal.API
             });
 
             services.AddMvc();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc($"{ApiVersion}", new OpenApiInfo { Title = ApiTitle, Version = ApiVersion });
@@ -84,9 +87,11 @@ namespace FishingJournal.API
                 };
             });
 
+            // For Automapper
             services.AddSingleton(mapper);
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+            // For JwtToken handling
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<TokenServiceMiddleware>();
             services.AddTransient<ITokenService, TokenService>();
 
@@ -95,12 +100,14 @@ namespace FishingJournal.API
 
             var app = builder.Build();
 
+            // Swagger WebUI for InDev API testing
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint($"/swagger/{ApiVersion}/swagger.json", $"{ApiTitle} {ApiVersion}"));
             }
 
+            // For JwtToken handling
             app.UseMiddleware<TokenServiceMiddleware>();
 
             app.UseHttpsRedirection();
@@ -108,6 +115,7 @@ namespace FishingJournal.API
             app.UseCors();
 
             app.UseRouting();
+
             app.UseAuthentication();
             app.UseAuthorization();
 
