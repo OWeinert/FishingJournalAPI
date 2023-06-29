@@ -4,8 +4,12 @@ using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using SixLabors.ImageSharp.Formats.Png;
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 namespace FishingJournal.API.Models.JournalEntryModels
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [DataContract]
     public class JournalEntry
     {
@@ -23,13 +27,11 @@ namespace FishingJournal.API.Models.JournalEntryModels
         [Required]
         public int Id { get; set; }
 
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         /// <summary>
         /// User who created the JournalEntry
         /// </summary>
         [Required]
         public User User { get; set; }
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
         /// <summary>
         /// Id of the User
@@ -102,6 +104,16 @@ namespace FishingJournal.API.Models.JournalEntryModels
         [JsonPropertyName("hookTypeId")]
         [ForeignKey(nameof(HookType))]
         public int HookTypeId { get; set; }
+
+        /// <summary>
+        /// The size of hook used
+        /// </summary>
+        public HookSize? HookSize { get; set; }
+
+        [DataMember]
+        [JsonPropertyName("hookSizeId")]
+        [ForeignKey(nameof(HookSize))]
+        public int HookSizeId { get; set; }
 
         /// <summary>
         /// Additional info of what bait was used

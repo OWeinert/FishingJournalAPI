@@ -37,6 +37,11 @@ namespace FishingJournal.API.Database
         public DbSet<HookType> HookTypes { get; set; }
 
         /// <summary>
+        /// Hook Sizes table
+        /// </summary>
+        public DbSet<HookSize> HookSizes { get; set; }
+
+        /// <summary>
         /// Weather Types table
         /// </summary>
         public DbSet<WeatherType> WeatherTypes { get; set; }
