@@ -32,6 +32,22 @@ namespace FishingJournal.API
             if(RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
                 builder.Host.UseSystemd();
 
+
+            var webBuilder = builder.WebHost;
+
+            #region WebHost Builder
+
+
+            webBuilder.UseKestrel();
+            webBuilder.UseIIS();
+
+            var hostUrlsConfig = builder.Configuration.GetValue<string>("HostUrls");
+            var hostUrls = !string.IsNullOrWhiteSpace(hostUrlsConfig) ? hostUrlsConfig.Split(";") : new string[] { "https://localhost:7075", "http://localhost:5149" };
+            webBuilder.UseUrls(hostUrls);
+
+            #endregion WebHost Builder
+
+
             var services = builder.Services;
 
             services.AddDbContext<FishingJournalDbContext>();
