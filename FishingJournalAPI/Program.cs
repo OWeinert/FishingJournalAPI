@@ -16,6 +16,7 @@ namespace FishingJournal.API
     {
         public const string ApiTitle = "FishingJournalAPI";
         public const string ApiVersion = "v1";
+        public static readonly string DefaultCachePath = $"{Directory.GetCurrentDirectory()}/cache.db";
 
         public static void Main(string[] args)
         {
@@ -49,7 +50,7 @@ namespace FishingJournal.API
             services.AddSqliteCache(options =>
             {
                 var configPath = builder.Configuration.GetValue<string>("Jwt:TokenCachePath")!;
-                options.CachePath = !string.IsNullOrWhiteSpace(configPath) ? configPath : Directory.GetCurrentDirectory();
+                options.CachePath = !string.IsNullOrWhiteSpace(configPath) ? configPath : DefaultCachePath;
             });
 
             services.AddMvc();
