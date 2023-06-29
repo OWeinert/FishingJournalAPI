@@ -1,5 +1,8 @@
 ﻿namespace FishingJournal.API.Models.JournalEntryModels
 {
+    /// <summary>
+    /// Cardinal directions with 3 substeps
+    /// </summary>
     public enum CardinalDirection
     {
         North,
