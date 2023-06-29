@@ -20,16 +20,18 @@ namespace FishingJournal.API
 
         public static void Main(string[] args)
         {
+            // AutoMapper configuration
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new MappingProfile());
             });
             var mapper = config.CreateMapper();
 
+
             var builder = WebApplication.CreateBuilder(args);
 
             // Register host as systemd service on linux platform
-            if(RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
                 builder.Host.UseSystemd();
 
 
@@ -49,6 +51,9 @@ namespace FishingJournal.API
 
 
             var services = builder.Services;
+
+            #region Services Configuration
+
 
             services.AddDbContext<FishingJournalDbContext>();
 
@@ -115,7 +120,13 @@ namespace FishingJournal.API
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IJournalEntryService, JournalEntryService>();
 
+            #endregion Services Configuration
+
+
             var app = builder.Build();
+
+            #region App Configuration
+
 
             // Swagger WebUI for InDev API testing
             if (app.Environment.IsDevelopment())
@@ -137,6 +148,8 @@ namespace FishingJournal.API
             app.UseAuthorization();
 
             app.MapControllers();
+
+            #endregion App Configuration
 
             app.Run();
         }
