@@ -365,3 +365,6 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /FishingJournalAPI/Migrations/FishingJournalDbContextModelSnapshot.cs
+/FishingJournalAPI/cache.db
+/FishingJournalAPI/cache.db-shm
+/FishingJournalAPI/cache.db-wal
