@@ -4,6 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FishingJournal.API.Services
 {
+    /// <summary>
+    /// Implementation of Implementation of <see cref="IJournalEntryService"/>
+    /// </summary>
     public class JournalEntryService : IJournalEntryService
     {
         private readonly FishingJournalDbContext _dbContext;
