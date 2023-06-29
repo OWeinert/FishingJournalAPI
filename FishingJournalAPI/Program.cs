@@ -40,7 +40,6 @@ namespace FishingJournal.API
 
             #region WebHost Builder
 
-
             webBuilder.UseKestrel();
             webBuilder.UseIIS();
 
@@ -54,7 +53,6 @@ namespace FishingJournal.API
             var services = builder.Services;
 
             #region Services Configuration
-
 
             services.AddDbContext<FishingJournalDbContext>();
 
@@ -127,7 +125,6 @@ namespace FishingJournal.API
             var app = builder.Build();
 
             #region App Configuration
-
 
             // Swagger WebUI for InDev API testing
             if (app.Environment.IsDevelopment())

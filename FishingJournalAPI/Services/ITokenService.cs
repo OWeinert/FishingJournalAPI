@@ -1,5 +1,8 @@
 ﻿namespace FishingJournal.API.Services
 {
+    /// <summary>
+    /// Based on https://piotrgankiewicz.com/2018/04/25/canceling-jwt-tokens-in-net-core/
+    /// </summary>
     public interface ITokenService
     {
         /// <summary>

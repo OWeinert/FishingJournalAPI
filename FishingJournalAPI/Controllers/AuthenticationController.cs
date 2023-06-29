@@ -9,6 +9,12 @@ using System.Net;
 
 namespace FishingJournal.API.Controllers
 {
+    /// <summary>
+    /// Base on: https://www.infragistics.com/community/blogs/b/infragistics/posts/create-role-based-web-api-with-asp-net-core
+    /// </summary>
+    /// <param name="username"></param>
+    /// <param name="role"></param>
+    /// <returns></returns>
     [ApiController]
     [Route("[controller]")]
     [Consumes("application/json", "application/xml")]

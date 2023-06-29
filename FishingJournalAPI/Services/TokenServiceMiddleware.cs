@@ -2,6 +2,9 @@
 
 namespace FishingJournal.API.Services
 {
+    /// <summary>
+    /// Based on https://piotrgankiewicz.com/2018/04/25/canceling-jwt-tokens-in-net-core/
+    /// </summary>
     public class TokenServiceMiddleware : IMiddleware
     {
         private readonly ITokenService _tokenService;
