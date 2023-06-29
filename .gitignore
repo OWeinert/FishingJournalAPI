@@ -16,6 +16,9 @@
 # Mono auto generated files
 mono_crash.*
 
+# EFCore Migrations
+[Mm]igrations/
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
@@ -361,3 +364,4 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/FishingJournalAPI/Migrations/FishingJournalDbContextModelSnapshot.cs

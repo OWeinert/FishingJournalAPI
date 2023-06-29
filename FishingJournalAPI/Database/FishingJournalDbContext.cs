@@ -1,4 +1,5 @@
 ﻿using FishingJournal.API.Models;
+using FishingJournal.API.Models.JournalEntryModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace FishingJournal.API.Database
@@ -69,6 +70,26 @@ namespace FishingJournal.API.Database
             modelBuilder.Entity<User>()
                 .HasIndex(u => u.Name)
                 .IsUnique(true);
+
+            modelBuilder.Entity<JournalEntry>()
+                .HasOne(j => j.FishType)
+                .WithMany(f => f.Parents);
+            modelBuilder.Entity<JournalEntry>()
+                .HasOne(j => j.RigType)
+                .WithMany(r => r.Parents);
+            modelBuilder.Entity<JournalEntry>()
+                .HasOne(j => j.HookType)
+                .WithMany(h => h.Parents);
+            modelBuilder.Entity<JournalEntry>()
+                .HasOne(j => j.WeatherType)
+                .WithMany(we => we.Parents);
+            modelBuilder.Entity<JournalEntry>()
+                .HasOne(j => j.WaterSurfaceType)
+                .WithMany(ws => ws.Parents);
+            modelBuilder.Entity<JournalEntry>()
+                .HasOne(j => j.WaterCurrentType)
+                .WithMany(wc => wc.Parents);
+
         }
     }
 }
