@@ -11,6 +11,8 @@ namespace FishingJournal.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Consumes("application/json", "application/xml")]
+    [Produces("application/json", "application/xml")]
     public class AuthenticationController : Controller
     {
         private readonly IAuthenticationService _authService;
