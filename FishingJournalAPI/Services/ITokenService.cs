@@ -6,6 +6,14 @@
     public interface ITokenService
     {
         /// <summary>
+        /// Generates a JwtToken and writes it to the <see cref="JwtSecurityTokenHandler"/>
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="role"></param>
+        /// <returns></returns>
+        string GenerateJwtToken(string username, string role);
+
+        /// <summary>
         /// Checks if the current received token is active
         /// </summary>
         /// <returns></returns>

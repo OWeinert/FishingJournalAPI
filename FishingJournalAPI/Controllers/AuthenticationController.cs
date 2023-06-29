@@ -23,15 +23,18 @@ namespace FishingJournal.API.Controllers
     {
         private readonly IAuthenticationService _authService;
         private readonly FishingJournalDbContext _dbContext;
+        private readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
         private readonly ILogger<AuthenticationController> _logger;
 
         public AuthenticationController(IAuthenticationService authService, FishingJournalDbContext dbContext,
-            IMapper mapper, IConfiguration configuration, ILogger<AuthenticationController> logger) 
+            ITokenService tokenService, IMapper mapper, IConfiguration configuration, 
+            ILogger<AuthenticationController> logger) 
         {
             _authService = authService;
             _dbContext = dbContext;
+            _tokenService = tokenService;
             _mapper = mapper;
             _configuration = configuration;
             _logger = logger;
@@ -67,7 +70,7 @@ namespace FishingJournal.API.Controllers
                     var user = await _authService.RegisterUserAsync(mappedModel);
                     if(user != null)
                     {
-                        var token = _authService.GenerateJwtToken(user.Name, user.Role);
+                        var token = _tokenService.GenerateJwtToken(user.Name, user.Role);
                         _logger.LogDebug("User {user} newly registered in and received token {token}", user.Name, token);
                         return Ok(token);
                     }
@@ -99,7 +102,7 @@ namespace FishingJournal.API.Controllers
                     if (await _authService.AuthenticateAsync(userModel.Name, userModel.Password))
                     {
                         var user = await _authService.GetByNameAsync(userModel.Name);
-                        var token = _authService.GenerateJwtToken(user.Name, user.Role);
+                        var token = _tokenService.GenerateJwtToken(user.Name, user.Role);
                         _logger.LogDebug("User {user} logged in and received token {token}", user.Name, token);
                         return Ok(token);
                     }

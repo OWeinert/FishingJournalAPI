@@ -11,14 +11,6 @@ namespace FishingJournal.API.Services
     public interface IAuthenticationService
     {
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="username"></param>
-        /// <param name="role"></param>
-        /// <returns></returns>
-        string GenerateJwtToken(string username, string role);
-
-        /// <summary>
         /// Authenticates the User with <paramref name="username"/> and <paramref name="password"/>
         /// </summary>
         /// <param name="username"></param>
