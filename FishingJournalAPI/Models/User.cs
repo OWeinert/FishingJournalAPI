@@ -6,7 +6,7 @@ namespace FishingJournal.API.Models
     public class User
     {
         /// <summary>
-        /// Database ID of the User
+        /// Unique randomly generated User ID
         /// </summary>
         [Key]
         [Required]
@@ -26,7 +26,7 @@ namespace FishingJournal.API.Models
         public string Password { get; set; }
 
         /// <summary>
-        /// The Role of the user
+        /// The User's Role
         /// </summary>
         public string Role { get; set; }
     }

@@ -7,6 +7,8 @@
     {
         /// <summary>
         /// Generates a JwtToken and writes it to the <see cref="JwtSecurityTokenHandler"/>
+        /// 
+        /// Based On: https://www.infragistics.com/community/blogs/b/infragistics/posts/create-role-based-web-api-with-asp-net-core
         /// </summary>
         /// <param name="username"></param>
         /// <param name="role"></param>
