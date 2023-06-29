@@ -10,6 +10,12 @@ using BC = BCrypt.Net.BCrypt;
 
 namespace FishingJournal.API.Services
 {
+    /// <summary>
+    /// Base on: https://www.infragistics.com/community/blogs/b/infragistics/posts/create-role-based-web-api-with-asp-net-core
+    /// </summary>
+    /// <param name="username"></param>
+    /// <param name="role"></param>
+    /// <returns></returns>
     public class AuthenticationService : IAuthenticationService
     {
         private readonly FishingJournalDbContext _dbContext;

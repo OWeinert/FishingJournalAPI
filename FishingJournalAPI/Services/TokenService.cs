@@ -5,7 +5,7 @@ using Microsoft.Extensions.Primitives;
 namespace FishingJournal.API.Services
 {
     /// <summary>
-    /// credits: https://piotrgankiewicz.com/2018/04/25/canceling-jwt-tokens-in-net-core/
+    /// Based on https://piotrgankiewicz.com/2018/04/25/canceling-jwt-tokens-in-net-core/
     /// </summary>
     public class TokenService : ITokenService
     {
