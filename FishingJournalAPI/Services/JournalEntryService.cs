@@ -12,21 +12,16 @@ namespace FishingJournal.API.Services
         private readonly FishingJournalDbContext _dbContext;
         private readonly ILogger<JournalEntryService> _logger;
 
-        private IConfiguration _configuration;
-
-        public JournalEntryService(FishingJournalDbContext dbContext, ILogger<JournalEntryService> logger
-            , IConfiguration configuration)
+        public JournalEntryService(FishingJournalDbContext dbContext, ILogger<JournalEntryService> logger)
         {
             _dbContext = dbContext;
             _logger = logger;
-            _configuration = configuration;
         }
 
         public async Task AddAsync(JournalEntry journalEntry)
         {
             try
             {
-                await journalEntry.ConvertImagesToPathsAsync(_configuration.GetValue<string>("ImagesPath")!);
                 _dbContext.Add(journalEntry);
                 await _dbContext.SaveChangesAsync();
             }
@@ -34,22 +29,6 @@ namespace FishingJournal.API.Services
             {
                 _logger.LogError("Adding of JournalEntry failed! {ex}", ex);
             }
-        }
-
-        public async Task<IList<JournalEntry>> TransformEntriesForTransportAsync()
-        {
-            try
-            {
-                var entries = await _dbContext.JournalEntries!.ToListAsync();
-                entries.ForEach(async j => await j.ConvertPathsToImagesAsync());
-                await _dbContext.SaveChangesAsync();
-                return entries;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("Retrieval and conversion of JournalEntries failed! {ex}", ex);
-            }
-            throw new Exception("Error while converting JournalEntries!");
         }
 
         public async Task<IList<JournalEntry>> GetAllAsync() => await _dbContext.JournalEntries.ToListAsync();

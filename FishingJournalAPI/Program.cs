@@ -18,23 +18,22 @@ namespace FishingJournal.API
         public const string ApiVersion = "v1";
         public static readonly string DefaultCachePath = $"{Directory.GetCurrentDirectory()}/cache.db";
         public static readonly string[] DefaultHostUrls = new string[] { "https://localhost:7075", "http://localhost:5149" };
+        public static readonly string DefaultImagePath = $"{Directory.GetCurrentDirectory()}/images";
 
         public static void Main(string[] args)
         {
-            // AutoMapper configuration
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile(new MappingProfile());
-            });
-            var mapper = config.CreateMapper();
-
-
             var builder = WebApplication.CreateBuilder(args);
 
             // Register host as systemd service on linux platform
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
                 builder.Host.UseSystemd();
 
+            // AutoMapper configuration
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new MappingProfile(builder.Configuration));
+            });
+            var mapper = config.CreateMapper();
 
             var webBuilder = builder.WebHost;
 

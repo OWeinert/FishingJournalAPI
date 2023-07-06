@@ -6,13 +6,6 @@ namespace FishingJournal.API.Services
     public interface IJournalEntryService
     {
         /// <summary>
-        /// Returns all JournalEntries and converts the Image paths 
-        /// which are saved in the database into byte arrays for data transfer
-        /// </summary>
-        /// <returns></returns>
-        Task<IList<JournalEntry>> TransformEntriesForTransportAsync();
-
-        /// <summary>
         /// Returns all JournalEntries as a list
         /// </summary>
         /// <returns></returns>

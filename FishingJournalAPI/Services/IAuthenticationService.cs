@@ -34,6 +34,12 @@ namespace FishingJournal.API.Services
         /// <summary>
         /// </summary>
         /// <param name="username"></param>
+        /// <returns></returns>
+        User GetByName(string username);
+
+        /// <summary>
+        /// </summary>
+        /// <param name="username"></param>
         /// <returns>The User with the given <paramref name="username"/></returns>
         Task<User> GetByNameAsync(string username);
 

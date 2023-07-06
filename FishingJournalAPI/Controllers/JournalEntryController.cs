@@ -1,4 +1,5 @@
-﻿using FishingJournal.API.Models.InputModels;
+﻿using AutoMapper;
+using FishingJournal.API.Models.InputModels;
 using FishingJournal.API.Models.JournalEntryModels;
 using FishingJournal.API.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -16,13 +17,15 @@ namespace FishingJournal.API.Controllers
     {
         private readonly IJournalEntryService _journalEntryService;
         private readonly IAuthenticationService _authService;
+        private readonly IMapper _mapper;
         private readonly ILogger<JournalEntryController> _logger;
 
         public JournalEntryController(IJournalEntryService journalEntryService, IAuthenticationService authService,
-            ILogger<JournalEntryController> logger)
+            IMapper mapper, ILogger<JournalEntryController> logger)
         {
             _journalEntryService = journalEntryService;
             _authService = authService;
+            _mapper = mapper;
             _logger = logger;
         }
 
@@ -36,7 +39,8 @@ namespace FishingJournal.API.Controllers
             try
             {
                 var entries = await _journalEntryService.GetAllAsync();
-                return Ok(entries);
+                var dtos = entries.ToList().ConvertAll(_mapper.Map<JournalEntry, JournalEntryDTO>);
+                return Ok(dtos);
             }
             catch(Exception ex)
             {
@@ -56,7 +60,12 @@ namespace FishingJournal.API.Controllers
             try
             {
                 var entry = await _journalEntryService.FirstOrDefaultAsync(j => j.Id == id);
-                return Ok(entry);
+                if(entry == null)
+                {
+                    return BadRequest($"JournalEntry with Id {id} does not exist!");
+                }
+                var dto = _mapper.Map<JournalEntry, JournalEntryDTO>(entry!);
+                return Ok(dto);
             }
             catch (Exception ex)
             {
@@ -77,7 +86,8 @@ namespace FishingJournal.API.Controllers
             try
             {
                 var entries = await _journalEntryService.GetSpanAsync(startIndex, endIndex);
-                return Ok(entries);
+                var dtos = entries.ToList().ConvertAll(_mapper.Map<JournalEntry, JournalEntryDTO>);
+                return Ok(dtos);
             }
             catch (Exception ex)
             {
@@ -98,7 +108,8 @@ namespace FishingJournal.API.Controllers
             {
                 var userId = (await _authService.GetByNameAsync(username)).Id;
                 var entries = await _journalEntryService.GetUserEntriesAsync(userId);
-                return Ok(entries);
+                var dtos = entries.ToList().ConvertAll(_mapper.Map<JournalEntry, JournalEntryDTO>);
+                return Ok(dtos);
             }
             catch (Exception ex)
             {
@@ -113,12 +124,13 @@ namespace FishingJournal.API.Controllers
         /// <param name="journalEntry"></param>
         /// <returns></returns>
         [HttpPost(nameof(Add))]
-        public async Task<IActionResult> Add(JournalEntry journalEntry)
+        public async Task<IActionResult> Add(JournalEntryDTO journalEntryDto)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
+                    var journalEntry = _mapper.Map<JournalEntryDTO, JournalEntry>(journalEntryDto);
                     await _journalEntryService.AddAsync(journalEntry);
                     return Ok();
                 }

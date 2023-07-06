@@ -72,7 +72,11 @@ namespace FishingJournal.API.Controllers
                     {
                         var token = _tokenService.GenerateJwtToken(user.Name, user.Role);
                         _logger.LogDebug("User {user} newly registered in and received token {token}", user.Name, token);
-                        return Ok(token);
+                        return Ok(new UserAuthDTO
+                        {
+                            Id = user.Id,
+                            Token = token
+                        });
                     }
                     return BadRequest("Username and/or Password are incorrect!");
                 }
@@ -104,7 +108,11 @@ namespace FishingJournal.API.Controllers
                         var user = await _authService.GetByNameAsync(userModel.Name);
                         var token = _tokenService.GenerateJwtToken(user.Name, user.Role);
                         _logger.LogDebug("User {user} logged in and received token {token}", user.Name, token);
-                        return Ok(token);
+                        return Ok(new UserAuthDTO
+                        {
+                            Id = user.Id,
+                            Token = token
+                        });
                     }
                     return BadRequest("Username or Password are incorrect!");
                 }

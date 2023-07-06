@@ -21,13 +21,11 @@ namespace FishingJournal.API.Services
     public class AuthenticationService : IAuthenticationService
     {
         private readonly FishingJournalDbContext _dbContext;
-        private readonly IConfiguration _configuration;
         private readonly ITokenService _tokenService;
 
-        public AuthenticationService(FishingJournalDbContext dbContext, IConfiguration configuration, ITokenService tokenService)
+        public AuthenticationService(FishingJournalDbContext dbContext, ITokenService tokenService)
         {
             _dbContext = dbContext;
-            _configuration = configuration;
             _tokenService = tokenService;
         }
 
@@ -44,6 +42,8 @@ namespace FishingJournal.API.Services
         }
 
         public async Task<User> GetByIdAsync(string id) => await _dbContext.Users.FirstAsync(u => u.Id == id);
+
+        public User GetByName(string username) => _dbContext.Users.First(u => u.Name == username);
 
         public async Task<User> GetByNameAsync(string username) => await _dbContext.Users.FirstAsync(u => u.Name == username);
 

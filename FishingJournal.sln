@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33712.159
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FishingJournalAPI", "FishingJournalAPI\FishingJournalAPI.csproj", "{071B2884-50D4-44C2-95F8-F6004D356058}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{C2571B48-0C51-4AE1-BB78-15FD1FE4740B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FishingJournalClient", "FishingJournalClient\FishingJournalClient.csproj", "{F1B87EA7-1C32-44BB-ADFC-8CF3AA3631DF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FishingJournalClient.Android", "FishingJournalClient.Android\FishingJournalClient.Android.csproj", "{C0A60799-07AD-467F-AF52-1C383D1A0BF6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FishingJournalClient.Desktop", "FishingJournalClient.Desktop\FishingJournalClient.Desktop.csproj", "{47ACF703-DACC-45EB-B34F-B9D1EF1D399D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FishingJournalClient.iOS", "FishingJournalClient.iOS\FishingJournalClient.iOS.csproj", "{863BEC1C-D9DC-43EF-B8EA-4560E7AE73B3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{071B2884-50D4-44C2-95F8-F6004D356058}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{071B2884-50D4-44C2-95F8-F6004D356058}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{071B2884-50D4-44C2-95F8-F6004D356058}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{071B2884-50D4-44C2-95F8-F6004D356058}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1B87EA7-1C32-44BB-ADFC-8CF3AA3631DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1B87EA7-1C32-44BB-ADFC-8CF3AA3631DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1B87EA7-1C32-44BB-ADFC-8CF3AA3631DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1B87EA7-1C32-44BB-ADFC-8CF3AA3631DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0A60799-07AD-467F-AF52-1C383D1A0BF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0A60799-07AD-467F-AF52-1C383D1A0BF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0A60799-07AD-467F-AF52-1C383D1A0BF6}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{C0A60799-07AD-467F-AF52-1C383D1A0BF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0A60799-07AD-467F-AF52-1C383D1A0BF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0A60799-07AD-467F-AF52-1C383D1A0BF6}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{47ACF703-DACC-45EB-B34F-B9D1EF1D399D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47ACF703-DACC-45EB-B34F-B9D1EF1D399D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47ACF703-DACC-45EB-B34F-B9D1EF1D399D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47ACF703-DACC-45EB-B34F-B9D1EF1D399D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{863BEC1C-D9DC-43EF-B8EA-4560E7AE73B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{863BEC1C-D9DC-43EF-B8EA-4560E7AE73B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{863BEC1C-D9DC-43EF-B8EA-4560E7AE73B3}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{863BEC1C-D9DC-43EF-B8EA-4560E7AE73B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{863BEC1C-D9DC-43EF-B8EA-4560E7AE73B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{863BEC1C-D9DC-43EF-B8EA-4560E7AE73B3}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F1B87EA7-1C32-44BB-ADFC-8CF3AA3631DF} = {C2571B48-0C51-4AE1-BB78-15FD1FE4740B}
+		{C0A60799-07AD-467F-AF52-1C383D1A0BF6} = {C2571B48-0C51-4AE1-BB78-15FD1FE4740B}
+		{47ACF703-DACC-45EB-B34F-B9D1EF1D399D} = {C2571B48-0C51-4AE1-BB78-15FD1FE4740B}
+		{863BEC1C-D9DC-43EF-B8EA-4560E7AE73B3} = {C2571B48-0C51-4AE1-BB78-15FD1FE4740B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {57E19A1F-7225-43CA-9048-DE7ADE599662}
+	EndGlobalSection
+EndGlobal
