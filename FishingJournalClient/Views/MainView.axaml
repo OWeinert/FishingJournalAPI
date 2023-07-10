@@ -3,6 +3,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:FishingJournalClient.ViewModels"
+             xmlns:i="using:Avalonia.Xaml.Interactivity"
+             xmlns:ir="using:Avalonia.Xaml.Interactions.Responsive"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="FishingJournalClient.Views.MainView"
              x:DataType="vm:MainViewModel">
@@ -12,5 +14,50 @@
     <vm:MainViewModel />
   </Design.DataContext>
 
-  <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+  <SplitView Name="MainSplitView"
+             IsPaneOpen="True"
+             CompactPaneLength="0"
+             DisplayMode="CompactOverlay"
+             PanePlacement="Right"
+             Background="{DynamicResource ThemeForegroundBrush}">
+    <SplitView.Styles>
+      <Style Selector="SplitView.xs">
+        <Setter Property="OpenPaneLength" Value="576"/>
+      </Style>
+      <Style Selector="SplitView.s">
+        <Setter Property="OpenPaneLength" Value="360"/>
+      </Style>
+      <Style Selector="SplitView.md">
+        <Setter Property="OpenPaneLength" Value="420"/>
+      </Style>
+      <Style Selector="SplitView.lg">
+        <Setter Property="OpenPaneLength" Value="420"/>
+      </Style>
+      <Style Selector="SplitView.xl">
+        <Setter Property="OpenPaneLength" Value="420"/>
+      </Style>
+      <Style Selector="SplitView.xxl">
+        <Setter Property="OpenPaneLength" Value="420"/>
+      </Style>
+    </SplitView.Styles>
+    <i:Interaction.Behaviors>
+      <ir:AdaptiveBehavior>
+        <ir:AdaptiveClassSetter MinWidth="0" MaxWidth="576" ClassName="xs" />
+        <ir:AdaptiveClassSetter MinWidth="576" MaxWidth="768" ClassName="s" />
+        <ir:AdaptiveClassSetter MinWidth="768" MaxWidth="992" ClassName="md" />
+        <ir:AdaptiveClassSetter MinWidth="992" MaxWidth="1200" ClassName="lg" />
+        <ir:AdaptiveClassSetter MinWidth="1200" MaxWidth="1400" ClassName="xl" />
+        <ir:AdaptiveClassSetter MinWidth="1400" MaxWidth="Infinity" ClassName="xxl" />
+      </ir:AdaptiveBehavior>
+    </i:Interaction.Behaviors>
+
+    <Button Height="40"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Click="ButtonClick">
+      OPEN PANE
+    </Button>
+
+  </SplitView>
+
 </UserControl>

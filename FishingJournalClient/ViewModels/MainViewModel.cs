@@ -1,4 +1,6 @@
-﻿namespace FishingJournalClient.ViewModels;
+﻿using Avalonia.Xaml.Interactions.Responsive;
+
+namespace FishingJournalClient.ViewModels;
 
 public class MainViewModel : ViewModelBase
 {

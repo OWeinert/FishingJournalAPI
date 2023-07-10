@@ -5,6 +5,8 @@
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
     <Application.Styles>
-        <FluentTheme />
+      <FluentTheme/>
+      <StyleInclude Source="avares://Semi.Avalonia/Themes/Index.axaml" />
+      <StyleInclude Source="avares://Semi.Avalonia.ColorPicker/Index.axaml" />
     </Application.Styles>
 </Application>

@@ -1,7 +1,7 @@
-﻿using System;
-
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.ReactiveUI;
+using AvaloniaInside.Shell;
+using System;
 
 namespace FishingJournalClient.Desktop;
 
@@ -20,5 +20,6 @@ class Program
             .UsePlatformDetect()
             .WithInterFont()
             .LogToTrace()
-            .UseReactiveUI();
+            .UseReactiveUI()
+            .UseShell();
 }
