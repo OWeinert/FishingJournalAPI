@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using FishingJournal.API.Database;
 using FishingJournal.API.Models;
 using FishingJournal.API.Models.InputModels;
 using FishingJournal.API.Models.JournalEntryModels;
-using FishingJournal.API.Services;
 
 namespace FishingJournal.API.Helpers
 {

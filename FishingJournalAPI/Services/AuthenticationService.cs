@@ -2,10 +2,6 @@
 using FishingJournal.API.Helpers;
 using FishingJournal.API.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using BC = BCrypt.Net.BCrypt;
 
 namespace FishingJournal.API.Services

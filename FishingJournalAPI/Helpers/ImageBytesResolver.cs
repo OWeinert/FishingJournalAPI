@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using FishingJournal.API.Models.JournalEntryModels;
-using SixLabors.ImageSharp;
 
 namespace FishingJournal.API.Helpers
 {

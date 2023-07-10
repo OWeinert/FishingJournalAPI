@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using FishingJournal.API.Models.JournalEntryModels;
 using SixLabors.ImageSharp.Formats.Png;
-using System.IO;
 
 namespace FishingJournal.API.Helpers
 {

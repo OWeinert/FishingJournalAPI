@@ -1,5 +1,4 @@
-﻿using FishingJournal.API.Models;
-using FishingJournal.API.Models.JournalEntryModels;
+﻿using FishingJournal.API.Models.JournalEntryModels;
 
 namespace FishingJournal.API.Services
 {
