@@ -7,7 +7,8 @@ namespace FishingJournal.API.Models.InputModels
     public class EntryModificationInputModel
     {
         [Required]
-        public string Username { get; set; }
+        [EmailAddress]
+        public string Email { get; set; }
 
         [Required]
         public int JournalEntryId { get; set; }

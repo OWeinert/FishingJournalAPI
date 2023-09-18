@@ -1,5 +1,7 @@
 ﻿using FishingJournal.API.Models;
 using FishingJournal.API.Models.JournalEntryModels;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace FishingJournal.API.Database
@@ -7,14 +9,9 @@ namespace FishingJournal.API.Database
     /// <summary>
     /// EFCore DbContext of the FishingJournal database
     /// </summary>
-    public class FishingJournalDbContext : DbContext
+    public class FishingJournalDbContext : IdentityDbContext<User>
     {
         private readonly IConfiguration _configuration;
-
-        /// <summary>
-        /// Users table
-        /// </summary>
-        public DbSet<User> Users { get; set; }
 
         /// <summary>
         /// Journal Entries table
@@ -69,13 +66,6 @@ namespace FishingJournal.API.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>()
-                .HasIndex(u => u.Id)
-                .IsUnique(true);
-            modelBuilder.Entity<User>()
-                .HasIndex(u => u.Name)
-                .IsUnique(true);
-
             modelBuilder.Entity<JournalEntry>()
                 .HasOne(j => j.FishType)
                 .WithMany(f => f.Parents);
@@ -95,6 +85,17 @@ namespace FishingJournal.API.Database
                 .HasOne(j => j.WaterCurrentType)
                 .WithMany(wc => wc.Parents);
 
+            // Identity Key Config
+            modelBuilder.Entity<IdentityUserLogin<string>>()
+                .HasKey("UserId");
+            modelBuilder.Entity<IdentityUserRole<string>>()
+                .HasKey("UserId");
+            modelBuilder.Entity<IdentityUserRole<string>>()
+                .HasAlternateKey("RoleId");
+            modelBuilder.Entity<IdentityUserToken<string>>()
+                .HasKey("UserId");
+
+            modelBuilder.ApplyConfiguration(new RoleConfiguration());
         }
     }
 }

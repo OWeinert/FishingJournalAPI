@@ -5,13 +5,21 @@ namespace FishingJournal.API.Models.InputModels
 {
     public class RegisterInputModel
     {
-        [Required]
-        public string Name { get; set; }
+        [Required(ErrorMessage = "Username is required")]
+        [StringLength(32)]
+        public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Email Address is required")]
+        [EmailAddress]
+        public string Email { get; set; }
+
+        [DataType(DataType.Password)]
+        [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; }
 
+        [DataType(DataType.Password)]
         [Required]
+        [Compare("Password", ErrorMessage = "Passwords do not match")]
         public string ConfirmedPassword { get; set; }
     }
 }

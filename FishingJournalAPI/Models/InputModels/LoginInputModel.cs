@@ -6,9 +6,14 @@ namespace FishingJournal.API.Models.InputModels
     public class LoginInputModel
     {
         [Required]
-        public string Name { get; set; }
+        [EmailAddress]
+        public string Email { get; set; }
 
         [Required]
-        public string Password { get; set; } 
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+
+        [Required]
+        public bool RememberMe { get; set; }
     }
 }

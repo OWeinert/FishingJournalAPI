@@ -1,9 +1,12 @@
 using AutoMapper;
 using FishingJournal.API.Authentication;
 using FishingJournal.API.Database;
-using FishingJournal.API.Helpers;
+using FishingJournal.API.Mapping;
+using FishingJournal.API.Models;
 using FishingJournal.API.Services;
+using FishingJournal.API.Services.Impl;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using NeoSmart.Caching.Sqlite;
@@ -28,13 +31,6 @@ namespace FishingJournal.API
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
                 builder.Host.UseSystemd();
 
-            // AutoMapper configuration
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile(new MappingProfile(builder.Configuration));
-            });
-            var mapper = config.CreateMapper();
-
             var webBuilder = builder.WebHost;
 
             #region WebHost Builder
@@ -55,12 +51,45 @@ namespace FishingJournal.API
 
             services.AddDbContext<FishingJournalDbContext>();
 
+            services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = false;
+            })
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<FishingJournalDbContext>();
+
             services.AddCors(policyBuilder =>
                 policyBuilder.AddDefaultPolicy(policy =>
                     policy.WithOrigins("*")
                     .AllowAnyHeader()
                     .AllowAnyHeader())
             );
+
+            var jwtSettings = builder.Configuration.GetSection("Jwt");
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ValidIssuer = jwtSettings.GetSection("Issuer").Value,
+                    ValidAudience = jwtSettings.GetSection("Audience").Value,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.GetSection("Key").Value))
+                };
+            });
+            services.AddAuthorization(options => { });
 
             services.AddControllers();
             services.AddEndpointsApiExplorer();
@@ -88,35 +117,21 @@ namespace FishingJournal.API
                 });
                 c.OperationFilter<AuthResponsesOperationFilter>();
             });
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(o =>
-            {
-                o.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
-                    ValidAudience = builder.Configuration["Jwt:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)),
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true
-                };
-            });
 
-            // For Automapper
+            // AutoMapper configuration
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new MappingProfile(builder.Configuration));
+            });
+            var mapper = config.CreateMapper();
             services.AddSingleton(mapper);
 
             // For JwtToken handling
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddTransient<TokenServiceMiddleware>();
-            services.AddTransient<ITokenService, TokenService>();
 
-            services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IJournalEntryService, JournalEntryService>();
+
+            services.AddAntiforgery();
 
             #endregion Services Configuration
 
@@ -131,9 +146,6 @@ namespace FishingJournal.API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint($"/swagger/{ApiVersion}/swagger.json", $"{ApiTitle} {ApiVersion}"));
             }
-
-            // For JwtToken handling
-            app.UseMiddleware<TokenServiceMiddleware>();
 
             app.UseHttpsRedirection();
 

@@ -1,28 +1,29 @@
 ﻿using FishingJournal.API.Database;
+using FishingJournal.API.Models;
 using FishingJournal.API.Models.InputModels;
-using FishingJournal.API.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
-using BC = BCrypt.Net.BCrypt;
 
 namespace FishingJournal.API.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [Consumes("application/json", "application/xml")]
     [Produces("application/json", "application/xml")]
     public class UserController : Controller
     {
-        private readonly IAuthenticationService _authService;
+        private readonly UserManager<User> _userManager;
         private readonly FishingJournalDbContext _dbContext;
         private readonly ILogger<UserController> _logger;
 
-        public UserController(IAuthenticationService authService, FishingJournalDbContext dbContext, ILogger<UserController> logger) 
+        public UserController(UserManager<User> userManager, FishingJournalDbContext dbContext, 
+            ILogger<UserController> logger) 
         {
-            _authService = authService;
+            _userManager = userManager;
             _dbContext = dbContext;
             _logger = logger;
         }
@@ -40,17 +41,17 @@ namespace FishingJournal.API.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (!await _authService.DoesUserExistAsync(model.Name))
+                    var user = await _userManager.FindByEmailAsync(model.Email);
+
+                    if (user == null)
                         return BadRequest("User does not exist!");
 
-                    var user = await _authService.GetByNameAsync(model.Name);
-                    if (!BC.EnhancedVerify(model.OldPassword, user.Password))
-                        return BadRequest("Old password is incorrect!");
-                    if (model.NewPassword != model.ConfirmedNewPassword)
-                        return BadRequest("New passwords do not match!");
+                    var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
 
-                    await _authService.ChangePasswordAsync(model.Name, model.NewPassword);
-
+                    if(!result.Succeeded)
+                    {
+                        return Unauthorized("Invalid Credentials");
+                    }
                     return Ok();
                 }
                 return BadRequest(ModelState);
@@ -75,11 +76,16 @@ namespace FishingJournal.API.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (!await _authService.DoesUserExistAsync(model.OldName))
+                    var user = await _userManager.FindByEmailAsync(model.Email);
+                    if (user == null)
                         return BadRequest("User does not exist!");
 
-                    await _authService.ChangeUsernameAsync(model.OldName, model.NewName);
+                    var result = await _userManager.SetUserNameAsync(user, model.NewName);
 
+                    if(!result.Succeeded)
+                    {
+                        return StatusCode((int)HttpStatusCode.InternalServerError, result.Errors);
+                    }
                     return Ok();
                 }
                 return BadRequest(ModelState);
@@ -106,13 +112,20 @@ namespace FishingJournal.API.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-                        if (await _authService.AuthenticateAsync(userModel.Name, userModel.Password))
+                        var user = await _userManager.FindByEmailAsync(userModel.Email);
+                        if (user != null && await _userManager.CheckPasswordAsync(user, userModel.Password))
                         {
-                            var user = await _authService.GetByNameAsync(userModel.Name);
-                            _logger.LogDebug("User {user} deleted their account", user.Name);
+                            var result = await _userManager.DeleteAsync(user);
+
+                            if(!result.Succeeded)
+                            {
+                                return StatusCode((int)HttpStatusCode.InternalServerError, result.Errors);
+                            }
+
+                            _logger.LogDebug("User {user} deleted their account", user.UserName);
                             return Ok();
                         }
-                        return BadRequest("Username and/or Password are incorrect!");
+                        return BadRequest("Invalid Credentials");
                     }
                 }
                 return BadRequest(ModelState);
@@ -129,18 +142,23 @@ namespace FishingJournal.API.Controllers
         /// </summary>
         /// <param name="username"></param>
         /// <returns></returns>
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Admin")]
         [RequireHttps]
         [HttpDelete(nameof(DeleteDirect))]
-        public async Task<IActionResult> DeleteDirect(string username)
+        public async Task<IActionResult> DeleteDirect(string email)
         {
             try
             {
-                if (await _authService.DoesUserExistAsync(username))
+                var user = await _userManager.FindByEmailAsync(email);
+                if (user != null)
                 {
-                    await _authService.RemoveUserAsync(username);
+                    var result = await _userManager.DeleteAsync(user);
+                    if(!result.Succeeded)
+                    {
+                        return StatusCode((int)HttpStatusCode.InternalServerError, result.Errors);
+                    }
                 }
-                return BadRequest($"Username {username} does not exist!");
+                return BadRequest($"User with Email \"{email}\" does not exist!");
             }
             catch (Exception ex)
             {
@@ -153,8 +171,9 @@ namespace FishingJournal.API.Controllers
         /// 
         /// </summary>
         /// <returns></returns>
+        [Authorize(Roles = "Admin")]
         [RequireHttps]
-        [HttpGet(nameof(GetAll))]
+        [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             try

@@ -3,6 +3,7 @@ using System;
 using FishingJournal.API.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FishingJournal.API.Migrations
 {
     [DbContext(typeof(FishingJournalDbContext))]
-    partial class FishingJournalDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230910180816_ChangeToIdentity")]
+    partial class ChangeToIdentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.9");

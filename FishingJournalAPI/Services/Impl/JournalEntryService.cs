@@ -2,7 +2,7 @@
 using FishingJournal.API.Models.JournalEntryModels;
 using Microsoft.EntityFrameworkCore;
 
-namespace FishingJournal.API.Services
+namespace FishingJournal.API.Services.Impl
 {
     /// <summary>
     /// Implementation of Implementation of <see cref="IJournalEntryService"/>
@@ -33,7 +33,7 @@ namespace FishingJournal.API.Services
 
         public async Task<IList<JournalEntry>> GetAllAsync() => await _dbContext.JournalEntries.ToListAsync();
 
-        public async Task<IList<JournalEntry>> GetSpanAsync(int startIndex = 0, int? endIndex = null)
+        public async Task<IList<JournalEntry>> GetSliceAsync(int startIndex = 0, int? endIndex = null)
         {
             try
             {
@@ -43,9 +43,9 @@ namespace FishingJournal.API.Services
                 if (endIndex < startIndex)
                     throw new ArgumentOutOfRangeException(nameof(endIndex), $"endIndex [{endIndex}] has to be higher than startIndex [{startIndex}] !");
 
-                return entries.Skip(startIndex).Take(((int)endIndex) - startIndex + 1).ToList();
+                return entries.Skip(startIndex).Take((int)endIndex - startIndex + 1).ToList();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError("Retrieval of JournalEntries failed! {ex}", ex);
             }
@@ -58,7 +58,7 @@ namespace FishingJournal.API.Services
             {
                 return await _dbContext.JournalEntries.Where(j => j.UserId == userId).ToListAsync();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError("Retrieval of JournalEntries for User with Id  {id}  failed! {ex}", userId, ex);
             }
@@ -76,7 +76,7 @@ namespace FishingJournal.API.Services
                     throw new Exception("Could not find JournalEntry with given id!");
                 return entry;
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 _logger.LogError("Finding JournalEntry from id failed! {ex}", ex);
             }
@@ -120,6 +120,11 @@ namespace FishingJournal.API.Services
 
         public bool IsTableExistent() => _dbContext.JournalEntries != null;
 
-
+        // TODO ValidateEntryAsync
+        [Obsolete]
+        public async Task ValidateEntryAsync(JournalEntry journalEntry)
+        {
+            await Task.Yield();
+        }
     }
 }

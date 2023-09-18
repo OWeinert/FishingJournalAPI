@@ -6,15 +6,19 @@ namespace FishingJournal.API.Models.InputModels
     public class ChangePasswordInputModel
     {
         [Required]
-        public string Name { get; set; }
+        [EmailAddress]
+        public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Old Password is required!")]
+        [DataType(DataType.Password)]
         public string OldPassword { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "")]
+        [DataType(DataType.Password)]
         public string NewPassword { get; set; }
 
-        [Required]
+        [DataType(DataType.Password)]
+        [Compare("NewPassword", ErrorMessage = "Passwords do not match!")]
         public string ConfirmedNewPassword { get; set; }
     }
 }

@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
+using FishingJournal.API.Models;
+using FishingJournal.API.Models.DTOs;
 using FishingJournal.API.Models.InputModels;
 using FishingJournal.API.Models.JournalEntryModels;
 using FishingJournal.API.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -10,21 +13,21 @@ namespace FishingJournal.API.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/Entries")]
     [Consumes("application/json", "application/xml")]
     [Produces("application/json", "application/xml")]
     public class JournalEntryController : Controller
     {
         private readonly IJournalEntryService _journalEntryService;
-        private readonly IAuthenticationService _authService;
+        private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
         private readonly ILogger<JournalEntryController> _logger;
 
-        public JournalEntryController(IJournalEntryService journalEntryService, IAuthenticationService authService,
+        public JournalEntryController(IJournalEntryService journalEntryService, UserManager<User> userManager,
             IMapper mapper, ILogger<JournalEntryController> logger)
         {
             _journalEntryService = journalEntryService;
-            _authService = authService;
+            _userManager = userManager;
             _mapper = mapper;
             _logger = logger;
         }
@@ -85,7 +88,7 @@ namespace FishingJournal.API.Controllers
         {
             try
             {
-                var entries = await _journalEntryService.GetSpanAsync(startIndex, endIndex);
+                var entries = await _journalEntryService.GetSliceAsync(startIndex, endIndex);
                 var dtos = entries.ToList().ConvertAll(_mapper.Map<JournalEntry, JournalEntryDTO>);
                 return Ok(dtos);
             }
@@ -101,15 +104,43 @@ namespace FishingJournal.API.Controllers
         /// </summary>
         /// <param name="username"></param>
         /// <returns></returns>
-        [HttpGet("{username}")]
-        public async Task<IActionResult> Get(string username)
+        [HttpGet("ByName/{username}")]
+        public async Task<IActionResult> GetByName(string username)
         {
             try
             {
-                var userId = (await _authService.GetByNameAsync(username)).Id;
-                var entries = await _journalEntryService.GetUserEntriesAsync(userId);
-                var dtos = entries.ToList().ConvertAll(_mapper.Map<JournalEntry, JournalEntryDTO>);
-                return Ok(dtos);
+                var user = await _userManager.FindByNameAsync(username);
+                if(user != null)
+                {
+                    var dtos = GetUserJournalEntryDTOs(user);
+                    return Ok(dtos);
+                }
+                return BadRequest("Invalid Username");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Retrieval of User's JournalEntries failed! {ex}", ex);
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        [HttpGet("ByEmail/{username}")]
+        public async Task<IActionResult> GetByEmail(string email)
+        {
+            try
+            {
+                var user = await _userManager.FindByEmailAsync(email);
+                if (user != null)
+                {
+                    var dtos = GetUserJournalEntryDTOs(user);
+                    return Ok(dtos);
+                }
+                return BadRequest("Invalid Email");
             }
             catch (Exception ex)
             {
@@ -148,6 +179,7 @@ namespace FishingJournal.API.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
+        [RequireHttps]
         [HttpPut($"{nameof(Edit)}")]
         public async Task<IActionResult> Edit(EntryModificationInputModel model)
         {
@@ -160,7 +192,7 @@ namespace FishingJournal.API.Controllers
 
                     var journalEntry = await _journalEntryService.FromIdAsync(model.JournalEntryId);
 
-                    var user = await _authService.GetByNameAsync(model.Username);
+                    var user = await _userManager.FindByEmailAsync(model.Email);
                     if (journalEntry.User != user)
                         return BadRequest("User is not permitted to edit this JournalEntry!");
 
@@ -188,11 +220,11 @@ namespace FishingJournal.API.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (await _authService.DoesUserExistAsync(model.Username))
+                    var user = await _userManager.FindByEmailAsync(model.Email);
+                    if (user != null)
                     {
                         var journalEntry = await _journalEntryService.FromIdAsync(model.JournalEntryId);
 
-                        var user = await _authService.GetByNameAsync(model.Username);
                         if (journalEntry.User != user)
                             return BadRequest("User is not permitted to delete this JournalEntry!");
 
@@ -216,14 +248,14 @@ namespace FishingJournal.API.Controllers
         [Authorize(Roles = "Administrator")]
         [RequireHttps]
         [HttpDelete(nameof(DeleteAll))]
-        public async Task<IActionResult> DeleteAll(string username)
+        public async Task<IActionResult> DeleteAll(string email)
         {
             try
             {
-                if(await _authService.DoesUserExistAsync(username))
+                var user = await _userManager.FindByEmailAsync(email);
+                if(user != null)
                 {
-                    var userId = (await _authService.GetByNameAsync(username)).Id;
-                    var entries = await _journalEntryService.GetUserEntriesAsync(userId);
+                    var entries = await _journalEntryService.GetUserEntriesAsync(user.Id);
                     await _journalEntryService.RemoveMultipleAsync(entries);
                     return Ok();
                 }
@@ -234,6 +266,13 @@ namespace FishingJournal.API.Controllers
                 _logger.LogError("Deletion of JournalEntries failed! {ex}", ex);
                 return StatusCode((int)HttpStatusCode.InternalServerError);
             }
+        }
+
+        private List<JournalEntryDTO> GetUserJournalEntryDTOs(User user)
+        {
+            var entries = user.JournalEntries;
+            var dtos = entries.ToList().ConvertAll(_mapper.Map<JournalEntry, JournalEntryDTO>);
+            return dtos;
         }
     }
 }
