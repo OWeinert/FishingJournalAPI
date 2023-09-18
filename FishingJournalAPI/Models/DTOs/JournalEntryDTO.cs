@@ -1,7 +1,8 @@
 ﻿#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 using System.Text.Json.Serialization;
+using FishingJournal.API.Models.JournalEntryModels;
 
-namespace FishingJournal.API.Models.JournalEntryModels
+namespace FishingJournal.API.Models.DTOs
 {
     public class JournalEntryDTO
     {
@@ -19,8 +20,8 @@ namespace FishingJournal.API.Models.JournalEntryModels
         /// <summary>
         /// 
         /// </summary>
-        [JsonPropertyName("fishTypeId")]
-        public int FishTypeId { get; set; }
+        [JsonPropertyName("fishType")]
+        public string FishType { get; set; }
 
         /// <summary>
         /// Fish length
@@ -43,20 +44,20 @@ namespace FishingJournal.API.Models.JournalEntryModels
         /// <summary>
         /// 
         /// </summary>
-        [JsonPropertyName("rigTypeId")]
-        public int RigTypeId { get; set; }
+        [JsonPropertyName("rigType")]
+        public string RigType { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        [JsonPropertyName("hookTypeId")]
-        public int HookTypeId { get; set; }
+        [JsonPropertyName("hookType")]
+        public string HookType { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        [JsonPropertyName("hookSizeId")]
-        public int HookSizeId { get; set; }
+        [JsonPropertyName("hookSize")]
+        public string HookSize { get; set; }
 
         /// <summary>
         /// Additional info of what bait was used
@@ -97,8 +98,8 @@ namespace FishingJournal.API.Models.JournalEntryModels
         /// <summary>
         /// 
         /// </summary>
-        [JsonPropertyName("weatherTypeId")]
-        public int WeatherTypeId { get; set; }
+        [JsonPropertyName("weatherType")]
+        public string WeatherType { get; set; }
 
         /// <summary>
         /// Wind strength on the Beaufort scale
@@ -115,14 +116,14 @@ namespace FishingJournal.API.Models.JournalEntryModels
         /// <summary>
         /// 
         /// </summary>
-        [JsonPropertyName("waterSurfaceTypeId")]
-        public int WaterSurfaceTypeId { get; set; }
+        [JsonPropertyName("waterSurfaceType")]
+        public string WaterSurfaceType { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        [JsonPropertyName("waterCurrentTypeId")]
-        public int WaterCurrentTypeId { get; set; }
+        [JsonPropertyName("waterCurrentType")]
+        public string WaterCurrentType { get; set; }
 
         /// <summary>
         /// Air pressure in mbar (1 mbar = 1 hPa = 100 Pa)

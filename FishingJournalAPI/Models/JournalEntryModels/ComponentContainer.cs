@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using FishingJournal.API.Models.DTOs;
+using System.Text.Json.Serialization;
 
 namespace FishingJournal.API.Models.JournalEntryModels
 {
@@ -6,24 +7,24 @@ namespace FishingJournal.API.Models.JournalEntryModels
     public class ComponentContainer
     {
         [JsonPropertyName("fishTypes")]
-        public List<FishType> FishTypes { get; set; }
+        public List<ComponentDTO<string>> FishTypes { get; set; }
 
         [JsonPropertyName("hookSizes")]
-        public List<HookSize> HookSizes { get; set; }
+        public List<ComponentDTO<string>> HookSizes { get; set; }
 
         [JsonPropertyName("hookTypes")]
-        public List<HookType> HookTypes { get; set; }
+        public List<ComponentDTO<string>> HookTypes { get; set; }
 
         [JsonPropertyName("rigTypes")]
-        public List<RigType> RigTypes { get; set; }
+        public List<ComponentDTO<string>> RigTypes { get; set; }
 
         [JsonPropertyName("weatherTypes")]
-        public List<WeatherType> WeatherTypes { get; set; }
+        public List<ComponentDTO<string>> WeatherTypes { get; set; }
 
         [JsonPropertyName("waterCurrentTypes")]
-        public List<WaterCurrentType> WaterCurrentTypes { get; set; }
+        public List<ComponentDTO<string>> WaterCurrentTypes { get; set; }
 
         [JsonPropertyName("waterSurfaceTypes")]
-        public List<WaterSurfaceType> WaterSurfaceTypes { get; set; }
+        public List<ComponentDTO<string>> WaterSurfaceTypes { get; set; }
     }
 }

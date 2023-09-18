@@ -20,5 +20,7 @@ namespace FishingJournal.API.Models
         /// List of database table entries which reference this DbEntry
         /// </summary>
         public IList<D> Parents { get; set; }
+
+        public DbEntry(T? value) { Value = value; }
     }
 }
