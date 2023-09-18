@@ -147,7 +147,7 @@ namespace FishingJournal.Client.Api
             var localVarResponse = Client.Post<object>("/Authentication/Login", localVarRequestOptions, Configuration);
             if (ExceptionFactory != null)
             {
-                Exception _exception = ExceptionFactory("AuthenticationLoginPost", localVarResponse);
+                var _exception = ExceptionFactory("AuthenticationLoginPost", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -202,7 +202,7 @@ namespace FishingJournal.Client.Api
             var localVarResponse = await AsynchronousClient.PostAsync<object>("/Authentication/Login", localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
             if (ExceptionFactory != null)
             {
-                Exception _exception = ExceptionFactory("AuthenticationLoginPost", localVarResponse);
+                var _exception = ExceptionFactory("AuthenticationLoginPost", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -262,7 +262,7 @@ namespace FishingJournal.Client.Api
             var localVarResponse = Client.Post<object>("/Authentication/Logout", localVarRequestOptions, Configuration);
             if (ExceptionFactory != null)
             {
-                Exception _exception = ExceptionFactory("AuthenticationLogoutPost", localVarResponse);
+                var _exception = ExceptionFactory("AuthenticationLogoutPost", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -324,7 +324,7 @@ namespace FishingJournal.Client.Api
             var localVarResponse = await AsynchronousClient.PostAsync<object>("/Authentication/Logout", localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
             if (ExceptionFactory != null)
             {
-                Exception _exception = ExceptionFactory("AuthenticationLogoutPost", localVarResponse);
+                var _exception = ExceptionFactory("AuthenticationLogoutPost", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -377,7 +377,7 @@ namespace FishingJournal.Client.Api
             var localVarResponse = Client.Post<object>("/Authentication/Register", localVarRequestOptions, Configuration);
             if (ExceptionFactory != null)
             {
-                Exception _exception = ExceptionFactory("AuthenticationRegisterPost", localVarResponse);
+                var _exception = ExceptionFactory("AuthenticationRegisterPost", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -432,7 +432,7 @@ namespace FishingJournal.Client.Api
             var localVarResponse = await AsynchronousClient.PostAsync<object>("/Authentication/Register", localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
             if (ExceptionFactory != null)
             {
-                Exception _exception = ExceptionFactory("AuthenticationRegisterPost", localVarResponse);
+                var _exception = ExceptionFactory("AuthenticationRegisterPost", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;

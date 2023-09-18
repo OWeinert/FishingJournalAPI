@@ -9,13 +9,13 @@
     <RestoreAdditionalProjectSources>https://azuresdkartifacts.blob.core.windows.net/azure-sdk-tools/index.json</RestoreAdditionalProjectSources>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Azure.Core" Version="1.31.0" />
+    <PackageReference Include="Azure.Core" Version="1.34.0" />
     <PackageReference Include="JsonSubTypes" Version="2.0.1" />
     <PackageReference Include="Microsoft.Rest.ClientRuntime" Version="2.3.24" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="Polly" Version="7.2.3" />
-    <PackageReference Include="RestSharp" Version="108.0.2" />
-    <PackageReference Include="Splat" Version="14.6.37" />
+    <PackageReference Include="Polly" Version="7.2.4" />
+    <PackageReference Include="RestSharp" Version="110.2.0" />
+    <PackageReference Include="Splat" Version="14.7.1" />
     <PackageReference Include="Splat.DependencyInjection.SourceGenerator" Version="1.1.93">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

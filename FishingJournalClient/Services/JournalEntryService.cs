@@ -1,10 +1,7 @@
 ﻿using FishingJournal.Client.Api;
 using FishingJournal.Client.Api.Model;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FishingJournal.Client.Services

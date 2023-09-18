@@ -4,9 +4,9 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Polly;
 using RestSharp;
+using Splat;
 using System.Net;
 using HttpMethod = FishingJournal.Client.Api.Config.HttpMethod;
-using Splat;
 
 namespace FishingJournal.Client.Api
 {
@@ -272,17 +272,15 @@ namespace FishingJournal.Client.Api
                 Proxy = configuration.Proxy,
                 UserAgent = configuration.UserAgent
             };
-            var client = new RestClient(clientOptions)
-                .UseSerializer(() => new CustomJsonCodec(SerializerSettings, configuration));
+            var client = new RestClient(clientOptions, configureSerialization: s => s.UseSerializer(() => new CustomJsonCodec(SerializerSettings, configuration)));
             InterceptRequest(req);
             RestResponse<T> response;
             if (RetryConfiguration.RetryPolicy != null)
             {
                 var policy = RetryConfiguration.RetryPolicy;
                 var policyResult = policy.ExecuteAndCapture(() => client.Execute(req));
-                response = policyResult.Outcome == OutcomeType.Successful ? client.Deserialize<T>(policyResult.Result) : new RestResponse<T>
+                response = policyResult.Outcome == OutcomeType.Successful ? client.Deserialize<T>(policyResult.Result) : new RestResponse<T>(req)
                 {
-                    Request = req,
                     ErrorException = policyResult.FinalException
                 };
             }
@@ -357,17 +355,15 @@ namespace FishingJournal.Client.Api
                 Proxy = configuration.Proxy,
                 UserAgent = configuration.UserAgent
             };
-            var client = new RestClient(clientOptions)
-                .UseSerializer(() => new CustomJsonCodec(SerializerSettings, configuration));
+            var client = new RestClient(clientOptions, configureSerialization: s => s.UseSerializer(() => new CustomJsonCodec(SerializerSettings, configuration)));
             InterceptRequest(req);
             RestResponse<T> response;
             if (RetryConfiguration.AsyncRetryPolicy != null)
             {
                 var policy = RetryConfiguration.AsyncRetryPolicy;
                 var policyResult = await policy.ExecuteAndCaptureAsync((ct) => client.ExecuteAsync(req, ct), cancellationToken).ConfigureAwait(false);
-                response = policyResult.Outcome == OutcomeType.Successful ? client.Deserialize<T>(policyResult.Result) : new RestResponse<T>
+                response = policyResult.Outcome == OutcomeType.Successful ? client.Deserialize<T>(policyResult.Result) : new RestResponse<T>(req)
                 {
-                    Request = req,
                     ErrorException = policyResult.FinalException
                 };
             }

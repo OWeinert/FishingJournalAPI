@@ -86,7 +86,7 @@ namespace FishingJournal.Client.Api.Helpers
                         var match = regex.Match(header.ToString());
                         if (match.Success)
                         {
-                            string fileName = filePath + ClientUtils.SanitizeFilename(match.Groups[1].Value.Replace("\"", "").Replace("'", ""));
+                            var fileName = filePath + ClientUtils.SanitizeFilename(match.Groups[1].Value.Replace("\"", "").Replace("'", ""));
                             File.WriteAllBytes(fileName, bytes);
                             return new FileStream(fileName, FileMode.Open);
                         }
@@ -115,15 +115,21 @@ namespace FishingJournal.Client.Api.Helpers
         }
         public ISerializer Serializer => this;
         public IDeserializer Deserializer => this;
-        public string[] AcceptedContentTypes => RestSharp.Serializers.ContentType.JsonAccept;
+        public string[] AcceptedContentTypes => RestSharp.ContentType.JsonAccept;
         public SupportsContentType SupportsContentType => contentType =>
-            contentType.EndsWith("json", StringComparison.InvariantCultureIgnoreCase) ||
-            contentType.EndsWith("javascript", StringComparison.InvariantCultureIgnoreCase);
+            contentType.Value.EndsWith("json", StringComparison.InvariantCultureIgnoreCase) ||
+            contentType.Value.EndsWith("javascript", StringComparison.InvariantCultureIgnoreCase);
         public string ContentType
         {
             get { return _contentType; }
             set { throw new InvalidOperationException("Not allowed to set content type."); }
         }
         public DataFormat DataFormat => DataFormat.Json;
+
+        ContentType ISerializer.ContentType 
+        {
+            get => RestSharp.ContentType.FromDataFormat(DataFormat);
+            set => throw new InvalidOperationException("Not allowed to set content type.");
+        }
     }
 }

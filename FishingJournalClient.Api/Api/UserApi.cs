@@ -153,7 +153,7 @@ namespace FishingJournal.Client.Api
             var localVarResponse = this.Client.Put<Object>("/User/ChangePassword", localVarRequestOptions, this.Configuration);
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("UserChangePasswordPut", localVarResponse);
+                var _exception = this.ExceptionFactory("UserChangePasswordPut", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -214,7 +214,7 @@ namespace FishingJournal.Client.Api
             var localVarResponse = await this.AsynchronousClient.PutAsync<Object>("/User/ChangePassword", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("UserChangePasswordPut", localVarResponse);
+                var _exception = this.ExceptionFactory("UserChangePasswordPut", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -273,7 +273,7 @@ namespace FishingJournal.Client.Api
             var localVarResponse = this.Client.Put<Object>("/User/ChangeUsername", localVarRequestOptions, this.Configuration);
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("UserChangeUsernamePut", localVarResponse);
+                var _exception = this.ExceptionFactory("UserChangeUsernamePut", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -334,7 +334,7 @@ namespace FishingJournal.Client.Api
             var localVarResponse = await this.AsynchronousClient.PutAsync<Object>("/User/ChangeUsername", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("UserChangeUsernamePut", localVarResponse);
+                var _exception = this.ExceptionFactory("UserChangeUsernamePut", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -393,7 +393,7 @@ namespace FishingJournal.Client.Api
             var localVarResponse = this.Client.Delete<Object>("/User/Delete", localVarRequestOptions, this.Configuration);
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("UserDeleteDelete", localVarResponse);
+                var _exception = this.ExceptionFactory("UserDeleteDelete", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -454,7 +454,7 @@ namespace FishingJournal.Client.Api
             var localVarResponse = await this.AsynchronousClient.DeleteAsync<Object>("/User/Delete", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("UserDeleteDelete", localVarResponse);
+                var _exception = this.ExceptionFactory("UserDeleteDelete", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -514,7 +514,7 @@ namespace FishingJournal.Client.Api
             var localVarResponse = this.Client.Delete<Object>("/User/DeleteDirect", localVarRequestOptions, this.Configuration);
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("UserDeleteDirectDelete", localVarResponse);
+                var _exception = this.ExceptionFactory("UserDeleteDirectDelete", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -576,7 +576,7 @@ namespace FishingJournal.Client.Api
             var localVarResponse = await this.AsynchronousClient.DeleteAsync<Object>("/User/DeleteDirect", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("UserDeleteDirectDelete", localVarResponse);
+                var _exception = this.ExceptionFactory("UserDeleteDirectDelete", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -630,7 +630,7 @@ namespace FishingJournal.Client.Api
             var localVarResponse = this.Client.Get<Object>("/User/GetAll", localVarRequestOptions, this.Configuration);
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("UserGetAllGet", localVarResponse);
+                var _exception = this.ExceptionFactory("UserGetAllGet", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -686,7 +686,7 @@ namespace FishingJournal.Client.Api
             var localVarResponse = await this.AsynchronousClient.GetAsync<Object>("/User/GetAll", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("UserGetAllGet", localVarResponse);
+                var _exception = this.ExceptionFactory("UserGetAllGet", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;

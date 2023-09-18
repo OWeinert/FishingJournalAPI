@@ -1,6 +1,4 @@
-﻿using FishingJournal.Client.Api.Config;
-
-namespace FishingJournal.Client.Api.Config
+﻿namespace FishingJournal.Client.Api.Config
 {
     /// <summary>
     /// <see cref="GlobalConfiguration"/> provides a compile-time extension point for globally configuring

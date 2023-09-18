@@ -153,7 +153,7 @@ namespace FishingJournal.Client.Api
             var localVarResponse = this.Client.Post<Object>("/JournalEntry/Add", localVarRequestOptions, this.Configuration);
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("JournalEntryAddPost", localVarResponse);
+                var _exception = this.ExceptionFactory("JournalEntryAddPost", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -214,7 +214,7 @@ namespace FishingJournal.Client.Api
             var localVarResponse = await this.AsynchronousClient.PostAsync<Object>("/JournalEntry/Add", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("JournalEntryAddPost", localVarResponse);
+                var _exception = this.ExceptionFactory("JournalEntryAddPost", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -274,7 +274,7 @@ namespace FishingJournal.Client.Api
             var localVarResponse = this.Client.Delete<Object>("/JournalEntry/DeleteAll", localVarRequestOptions, this.Configuration);
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("JournalEntryDeleteAllDelete", localVarResponse);
+                var _exception = this.ExceptionFactory("JournalEntryDeleteAllDelete", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -336,7 +336,7 @@ namespace FishingJournal.Client.Api
             var localVarResponse = await this.AsynchronousClient.DeleteAsync<Object>("/JournalEntry/DeleteAll", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("JournalEntryDeleteAllDelete", localVarResponse);
+                var _exception = this.ExceptionFactory("JournalEntryDeleteAllDelete", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -395,7 +395,7 @@ namespace FishingJournal.Client.Api
             var localVarResponse = this.Client.Delete<Object>("/JournalEntry/Delete", localVarRequestOptions, this.Configuration);
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("JournalEntryDeleteDelete", localVarResponse);
+                var _exception = this.ExceptionFactory("JournalEntryDeleteDelete", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -456,7 +456,7 @@ namespace FishingJournal.Client.Api
             var localVarResponse = await this.AsynchronousClient.DeleteAsync<Object>("/JournalEntry/Delete", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("JournalEntryDeleteDelete", localVarResponse);
+                var _exception = this.ExceptionFactory("JournalEntryDeleteDelete", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -515,7 +515,7 @@ namespace FishingJournal.Client.Api
             var localVarResponse = this.Client.Put<Object>("/JournalEntry/Edit", localVarRequestOptions, this.Configuration);
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("JournalEntryEditPut", localVarResponse);
+                var _exception = this.ExceptionFactory("JournalEntryEditPut", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -576,7 +576,7 @@ namespace FishingJournal.Client.Api
             var localVarResponse = await this.AsynchronousClient.PutAsync<Object>("/JournalEntry/Edit", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("JournalEntryEditPut", localVarResponse);
+                var _exception = this.ExceptionFactory("JournalEntryEditPut", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -630,7 +630,7 @@ namespace FishingJournal.Client.Api
             var localVarResponse = this.Client.Get<Object>("/JournalEntry", localVarRequestOptions, this.Configuration);
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("JournalEntryGet", localVarResponse);
+                var _exception = this.ExceptionFactory("JournalEntryGet", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -686,7 +686,7 @@ namespace FishingJournal.Client.Api
             var localVarResponse = await this.AsynchronousClient.GetAsync<Object>("/JournalEntry", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("JournalEntryGet", localVarResponse);
+                var _exception = this.ExceptionFactory("JournalEntryGet", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -743,7 +743,7 @@ namespace FishingJournal.Client.Api
             var localVarResponse = this.Client.Get<Object>("/JournalEntry/{id}", localVarRequestOptions, this.Configuration);
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("JournalEntryIdGet", localVarResponse);
+                var _exception = this.ExceptionFactory("JournalEntryIdGet", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -802,7 +802,7 @@ namespace FishingJournal.Client.Api
             var localVarResponse = await this.AsynchronousClient.GetAsync<Object>("/JournalEntry/{id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("JournalEntryIdGet", localVarResponse);
+                var _exception = this.ExceptionFactory("JournalEntryIdGet", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -862,7 +862,7 @@ namespace FishingJournal.Client.Api
             var localVarResponse = this.Client.Get<Object>("/JournalEntry/{startIndex}.{endIndex}", localVarRequestOptions, this.Configuration);
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("JournalEntryStartIndexEndIndexGet", localVarResponse);
+                var _exception = this.ExceptionFactory("JournalEntryStartIndexEndIndexGet", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -924,7 +924,7 @@ namespace FishingJournal.Client.Api
             var localVarResponse = await this.AsynchronousClient.GetAsync<Object>("/JournalEntry/{startIndex}.{endIndex}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("JournalEntryStartIndexEndIndexGet", localVarResponse);
+                var _exception = this.ExceptionFactory("JournalEntryStartIndexEndIndexGet", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -986,7 +986,7 @@ namespace FishingJournal.Client.Api
             var localVarResponse = this.Client.Get<Object>("/JournalEntry/{username}", localVarRequestOptions, this.Configuration);
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("JournalEntryUsernameGet", localVarResponse);
+                var _exception = this.ExceptionFactory("JournalEntryUsernameGet", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -1050,7 +1050,7 @@ namespace FishingJournal.Client.Api
             var localVarResponse = await this.AsynchronousClient.GetAsync<Object>("/JournalEntry/{username}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
             if (this.ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("JournalEntryUsernameGet", localVarResponse);
+                var _exception = this.ExceptionFactory("JournalEntryUsernameGet", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;

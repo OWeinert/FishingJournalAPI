@@ -1,5 +1,4 @@
-﻿using FishingJournal.Client.Api.Exceptions;
-using System.Net;
+﻿using System.Net;
 using System.Security.Cryptography.X509Certificates;
 
 namespace FishingJournal.Client.Api.Config

@@ -1,0 +1,21 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:c="clr-namespace:FishingJournal.Client.Controls;assembly=FishingJournalClient"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="FishingJournal.Client.Controls.UserAvatar"
+             x:DataType="c:UserAvatar">
+  <Border Background="{DynamicResource SemiColorPrimary}"
+          CornerRadius="32"
+          Width="48"
+          Height="48"
+          Padding="0">
+    <TextBlock Text="?"
+               Classes="H2"
+               Theme="{StaticResource TitleTextBlock}"
+               Foreground ="{DynamicResource SemiColorPrimaryPressed}"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"/>
+  </Border>
+</UserControl>

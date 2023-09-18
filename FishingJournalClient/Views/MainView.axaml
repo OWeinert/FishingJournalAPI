@@ -5,6 +5,7 @@
              xmlns:vm="clr-namespace:FishingJournalClient.ViewModels"
              xmlns:i="using:Avalonia.Xaml.Interactivity"
              xmlns:ir="using:Avalonia.Xaml.Interactions.Responsive"
+             xmlns:c="using:FishingJournal.Client.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="FishingJournalClient.Views.MainView"
              x:DataType="vm:MainViewModel">
@@ -19,16 +20,16 @@
              CompactPaneLength="0"
              DisplayMode="CompactOverlay"
              PanePlacement="Right"
-             Background="{DynamicResource ThemeForegroundBrush}">
+             PaneBackground="{DynamicResource SemiColorBackground4}">
     <SplitView.Styles>
       <Style Selector="SplitView.xs">
-        <Setter Property="OpenPaneLength" Value="576"/>
+        <Setter Property="OpenPaneLength" Value="260"/>
       </Style>
       <Style Selector="SplitView.s">
         <Setter Property="OpenPaneLength" Value="360"/>
       </Style>
       <Style Selector="SplitView.md">
-        <Setter Property="OpenPaneLength" Value="420"/>
+        <Setter Property="OpenPaneLength" Value="360"/>
       </Style>
       <Style Selector="SplitView.lg">
         <Setter Property="OpenPaneLength" Value="420"/>
@@ -50,6 +51,82 @@
         <ir:AdaptiveClassSetter MinWidth="1400" MaxWidth="Infinity" ClassName="xxl" />
       </ir:AdaptiveBehavior>
     </i:Interaction.Behaviors>
+
+    <SplitView.Pane>
+      <Grid Margin="8">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="48"/>
+          <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+      
+        <!-- User Info -->
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+          <TextBlock Margin="8,0"
+                     Theme="{DynamicResource TitleTextBlock}"
+                     Classes="H4"
+                     VerticalAlignment="Center">
+            User
+          </TextBlock>
+          <c:UserAvatar/>
+        </StackPanel>
+        
+        <!-- Authentication Input -->
+
+        <Grid Grid.Row="1"
+              IsVisible="True">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+          </Grid.RowDefinitions>
+
+          <Grid Grid.Row="0"
+                HorizontalAlignment="Center">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*"/>
+              <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <RadioButton x:Name="SelectSignInButton"
+                         Grid.Column="0"
+                         Theme="{DynamicResource ButtonRadioButton}"
+                         Classes="Large"
+                         IsChecked="True"
+                         Click="AuthInputRadioButtonClick">
+              <TextBlock Text="Sign In"/>
+            </RadioButton>
+            <RadioButton x:Name="SelectRegisterButton"
+                         Grid.Column="1"
+                         Theme="{DynamicResource ButtonRadioButton}"
+                         Classes="Large"
+                         Click="AuthInputRadioButtonClick">
+              <TextBlock Text="Register"/>
+            </RadioButton>
+          </Grid>
+
+          <Carousel Grid.Row="1"
+                    x:Name="AuthInputCarousel">
+            <Carousel.PageTransition>
+              <PageSlide Orientation="Horizontal"
+                         Duration="0.1"/>
+            </Carousel.PageTransition>
+            <Border>
+              <TextBlock>
+                Sign In
+              </TextBlock>
+            </Border>
+            <Border>
+              <TextBlock>
+                Register
+              </TextBlock> 
+            </Border>
+          </Carousel>
+          
+        </Grid>
+        
+      </Grid>
+    </SplitView.Pane>    
 
     <Button Height="40"
             HorizontalAlignment="Center"

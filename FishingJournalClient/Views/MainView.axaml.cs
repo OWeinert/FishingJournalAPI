@@ -3,7 +3,7 @@ using Avalonia.Interactivity;
 using FishingJournalClient.ViewModels;
 using ReactiveUI;
 using Splat;
-using System.Threading.Tasks;
+using System;
 
 namespace FishingJournalClient.Views;
 
@@ -21,5 +21,11 @@ public partial class MainView : UserControl, IViewFor<MainViewModel>
     private void ButtonClick(object sender, RoutedEventArgs e)
     {
         MainSplitView.IsPaneOpen = !MainSplitView.IsPaneOpen;
+    }
+
+    private void AuthInputRadioButtonClick(object sender, RoutedEventArgs e)
+    {
+        var radioButton = (RadioButton)sender;
+        AuthInputCarousel.SelectedIndex = Convert.ToInt32(radioButton.Name == nameof(SelectRegisterButton));
     }
 }
