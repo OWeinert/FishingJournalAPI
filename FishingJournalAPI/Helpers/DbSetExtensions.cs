@@ -4,7 +4,7 @@ using FishingJournal.API.Models.DTOs;
 using FishingJournal.API.Models.JournalEntryModels;
 using Microsoft.EntityFrameworkCore;
 
-namespace FishingJournal.API.Database
+namespace FishingJournal.API.Helpers
 {
     public static class DbSetExtensions
     {
