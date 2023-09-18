@@ -196,7 +196,8 @@ namespace FishingJournal.API.Controllers
                     if (journalEntry.User != user)
                         return BadRequest("User is not permitted to edit this JournalEntry!");
 
-                    await _journalEntryService.UpdateEntryAsync(journalEntry, model.NewJournalEntry);
+                    var mappedJournalEntry = _mapper.Map<JournalEntry>(journalEntry);
+                    await _journalEntryService.UpdateEntryAsync(journalEntry, mappedJournalEntry);
                 }
                 return BadRequest(ModelState);
             }

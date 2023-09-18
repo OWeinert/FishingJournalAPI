@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FishingJournal.API.Database;
+using FishingJournal.API.Helpers;
 using FishingJournal.API.Models.DTOs;
 using FishingJournal.API.Models.JournalEntryModels;
 using Microsoft.AspNetCore.Authorization;
