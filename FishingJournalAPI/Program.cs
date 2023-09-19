@@ -94,13 +94,6 @@ namespace FishingJournal.API
             services.AddControllers();
             services.AddEndpointsApiExplorer();
 
-            // JwtToken cache
-            services.AddSqliteCache(options =>
-            {
-                var configPath = builder.Configuration.GetValue<string>("Jwt:TokenCachePath")!;
-                options.CachePath = !string.IsNullOrWhiteSpace(configPath) ? configPath : DefaultCachePath;
-            });
-
             services.AddMvc();
 
             services.AddSwaggerGen(c =>

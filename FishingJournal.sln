@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FishingJournalClient.Androi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FishingJournalClient.Desktop", "FishingJournalClient.Desktop\FishingJournalClient.Desktop.csproj", "{47ACF703-DACC-45EB-B34F-B9D1EF1D399D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FishingJournalClient.Api", "FishingJournalClient.Api\FishingJournalClient.Api.csproj", "{EE5EA278-D6BE-4511-8C21-0A5FF9AD0AA4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FishingJournalClient.Api", "FishingJournalClient.Api\FishingJournalClient.Api.csproj", "{EE5EA278-D6BE-4511-8C21-0A5FF9AD0AA4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
