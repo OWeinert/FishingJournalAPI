@@ -1,8 +1,6 @@
 ﻿using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using FishingJournal.Client.Api;
-using FishingJournal.Client.Services;
 using FishingJournalClient.ViewModels;
 using FishingJournalClient.Views;
 using ReactiveUI;
@@ -18,8 +16,7 @@ public partial class App : Application
 
         // Services
 
-        SplatRegistrations.RegisterLazySingleton<IAsynchronousClient, ApiClient>("Init");
-        SplatRegistrations.RegisterLazySingleton<IJournalEntryService, JournalEntryService>("Init");
+        
 
         // ViewModels
         SplatRegistrations.Register<MainViewModel>("Init");

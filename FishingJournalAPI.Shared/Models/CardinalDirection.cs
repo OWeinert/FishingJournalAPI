@@ -1,4 +1,4 @@
-﻿namespace FishingJournal.API.Models.JournalEntryModels
+﻿namespace FishingJournal.API.Models
 {
     /// <summary>
     /// Cardinal directions with 3 substeps

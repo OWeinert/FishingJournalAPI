@@ -23,11 +23,11 @@
     <PackageReference Include="Avalonia.Xaml.Interactions" Version="11.0.2" />
     <PackageReference Include="AvaloniaInside.Shell" Version="1.1.0" />
     <PackageReference Include="DialogHost.Avalonia" Version="0.7.7" />
-    <PackageReference Include="DynamicData" Version="7.14.2" />
+    <PackageReference Include="DynamicData" Version="8.0.2" />
     <PackageReference Include="GMap.Net" Version="1.0.1" />
     <PackageReference Include="Material.Icons.Avalonia" Version="2.0.1" />
     <PackageReference Include="ReactiveHistory" Version="0.10.7" />
-    <PackageReference Include="ReactiveUI.Fody" Version="19.4.1" />
+    <PackageReference Include="ReactiveUI.Fody" Version="19.5.1" />
     <PackageReference Include="ReactiveValidation.Avalonia" Version="2.0.3" />
     <PackageReference Include="Semi.Avalonia" Version="11.0.1" />
     <PackageReference Include="Semi.Avalonia.ColorPicker" Version="11.0.1" />

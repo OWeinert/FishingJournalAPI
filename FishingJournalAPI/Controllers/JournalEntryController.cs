@@ -104,7 +104,7 @@ namespace FishingJournal.API.Controllers
         /// </summary>
         /// <param name="username"></param>
         /// <returns></returns>
-        [HttpGet("ByName/{username}")]
+        [HttpGet("User/name:{username}")]
         public async Task<IActionResult> GetByName(string username)
         {
             try
@@ -129,7 +129,7 @@ namespace FishingJournal.API.Controllers
         /// </summary>
         /// <param name="username"></param>
         /// <returns></returns>
-        [HttpGet("ByEmail/{username}")]
+        [HttpGet("User/mail:{email}")]
         public async Task<IActionResult> GetByEmail(string email)
         {
             try

@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FishingJournalClient.Androi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FishingJournalClient.Desktop", "FishingJournalClient.Desktop\FishingJournalClient.Desktop.csproj", "{47ACF703-DACC-45EB-B34F-B9D1EF1D399D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FishingJournalClient.Api", "FishingJournalClient.Api\FishingJournalClient.Api.csproj", "{EE5EA278-D6BE-4511-8C21-0A5FF9AD0AA4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FishingJournalAPI.Shared", "FishingJournalAPI.Shared\FishingJournalAPI.Shared.csproj", "{9A74651E-D8DF-4F96-B314-413E3D94B5BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FishingJournalClient.API", "FishingJournalClient.API\FishingJournalClient.API.csproj", "{0CDE54DA-17F6-4A16-9562-22653A364A8A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +45,14 @@ Global
 		{EE5EA278-D6BE-4511-8C21-0A5FF9AD0AA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE5EA278-D6BE-4511-8C21-0A5FF9AD0AA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE5EA278-D6BE-4511-8C21-0A5FF9AD0AA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A74651E-D8DF-4F96-B314-413E3D94B5BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A74651E-D8DF-4F96-B314-413E3D94B5BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A74651E-D8DF-4F96-B314-413E3D94B5BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A74651E-D8DF-4F96-B314-413E3D94B5BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CDE54DA-17F6-4A16-9562-22653A364A8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CDE54DA-17F6-4A16-9562-22653A364A8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CDE54DA-17F6-4A16-9562-22653A364A8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CDE54DA-17F6-4A16-9562-22653A364A8A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,6 +62,7 @@ Global
 		{C0A60799-07AD-467F-AF52-1C383D1A0BF6} = {C2571B48-0C51-4AE1-BB78-15FD1FE4740B}
 		{47ACF703-DACC-45EB-B34F-B9D1EF1D399D} = {C2571B48-0C51-4AE1-BB78-15FD1FE4740B}
 		{EE5EA278-D6BE-4511-8C21-0A5FF9AD0AA4} = {C2571B48-0C51-4AE1-BB78-15FD1FE4740B}
+		{0CDE54DA-17F6-4A16-9562-22653A364A8A} = {C2571B48-0C51-4AE1-BB78-15FD1FE4740B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {57E19A1F-7225-43CA-9048-DE7ADE599662}
